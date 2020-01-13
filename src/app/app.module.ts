@@ -6,11 +6,21 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatButtonModule, MatIconModule, MatSliderModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatCardModule, MatCheckboxModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatSliderModule,
+  MatTabsModule
+} from '@angular/material';
 import { HomeComponent } from './home/home.component';
 import { SignComponent } from './sign/sign.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
+import {FormsModule} from '@angular/forms';
+import {MatPasswordStrengthModule} from '@angular-material-extensions/password-strength';
 
 
 @NgModule({
@@ -29,7 +39,14 @@ import { ContactComponent } from './contact/contact.component';
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
+    MatTabsModule,
+    FormsModule,
+    MatCheckboxModule,
+    MatPasswordStrengthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
