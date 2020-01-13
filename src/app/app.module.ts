@@ -21,6 +21,7 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import {FormsModule} from '@angular/forms';
 import {MatPasswordStrengthModule} from '@angular-material-extensions/password-strength';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {MatPasswordStrengthModule} from '@angular-material-extensions/password-s
     HomeComponent,
     SignComponent,
     AboutComponent,
-    ContactComponent
+    ContactComponent,
+    FooterComponent
   ],
   imports: [
     MatSliderModule,
