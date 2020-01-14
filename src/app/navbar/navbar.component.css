@@ -2,6 +2,10 @@
   flex: 1 1 auto ;
 }
 
+.mat-elevation-z10{
+  position: fixed;
+}
+
 
 
 

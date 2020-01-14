@@ -19,7 +19,7 @@ import { HomeComponent } from './home/home.component';
 import { SignComponent } from './sign/sign.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatPasswordStrengthModule} from '@angular-material-extensions/password-strength';
 import { FooterComponent } from './footer/footer.component';
 
@@ -50,7 +50,8 @@ import { FooterComponent } from './footer/footer.component';
     MatCheckboxModule,
     MatPasswordStrengthModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

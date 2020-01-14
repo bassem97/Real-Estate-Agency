@@ -58,6 +58,75 @@
         <mat-card-content>
           <form action="">
             <mat-form-field>
+              <mat-label>You are </mat-label>
+              <mat-select
+                required
+                [formControl]="type"
+                [(ngModel)]="selectedItem"
+                (closed)="closeSelection()"
+              >
+                <mat-option value="Agency"> Agency </mat-option>
+                <mat-option value="Person"> Person </mat-option>
+              </mat-select>
+              <mat-error *ngIf="type.hasError('required')">this field is required</mat-error>
+            </mat-form-field>
+            <mat-form-field *ngIf="selectedItem=='Agency'">
+              <input
+                matInput
+                placeholder="Agency name"
+                required
+                name="agencyName"
+                ngModel
+                #agencyName="ngModel">
+              <mat-icon matSuffix>perm_identity</mat-icon>
+              <mat-error
+                *ngIf="agencyName.invalid">
+                Agency name is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field *ngIf="selectedItem=='Agency'">
+              <input
+                matInput
+                placeholder="Tax registration"
+                required
+                name="taxRegistration"
+                ngModel
+                #taxRegistration="ngModel">
+              <mat-icon matSuffix>perm_identity</mat-icon>
+              <mat-error
+                *ngIf="taxRegistration.invalid">
+                Tax registration is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field *ngIf="selectedItem=='Person'">
+              <input
+                matInput
+                placeholder="Firstname"
+                required
+                name="firstname"
+                ngModel
+                #firstname="ngModel">
+              <mat-icon matSuffix>perm_identity</mat-icon>
+              <mat-error
+                *ngIf="firstname.invalid">
+                Firstname is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field *ngIf="selectedItem=='Person'">
+              <input
+                matInput
+                placeholder="lastname"
+                required
+                name="lastname"
+                ngModel
+                #lastname="ngModel">
+              <mat-icon matSuffix>perm_identity</mat-icon>
+              <mat-error
+                *ngIf="lastname.invalid">
+                Lastname is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
               <input
                 matInput
                 placeholder="User Name"
@@ -70,7 +139,6 @@
                 *ngIf="username.invalid">
                 Username is required
               </mat-error>
-
             </mat-form-field>
             <mat-form-field>
               <input
@@ -83,14 +151,6 @@
               <mat-error *ngIf="email.invalid">Email is required</mat-error>
               <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
-            <mat-form-field>
-              <mat-label>You are* </mat-label>
-              <mat-select >
-                <mat-option value="Agency"> Agency </mat-option>
-                <mat-option value="Person"> Person </mat-option>
-              </mat-select>
-            </mat-form-field>
-
             <mat-form-field>
               <mat-pass-toggle-visibility #toggle  matSuffix></mat-pass-toggle-visibility>
               <input
