@@ -4,7 +4,7 @@
     <mat-tab-group [selectedIndex]="selected" mat-stretch-tabs class="example-stretched-tabs">
       <mat-tab label="Sign In">
         <mat-card-content>
-          <form action="">
+          <form  action="">
             <mat-form-field>
               <input
                 matInput
@@ -56,14 +56,13 @@
       </mat-tab>
       <mat-tab label="Sign Up">
         <mat-card-content>
-          <form action="">
+          <form [formGroup]="signUpForm"  action="">
             <mat-form-field>
               <mat-label>You are </mat-label>
               <mat-select
                 required
                 [formControl]="type"
                 [(ngModel)]="selectedItem"
-                (closed)="closeSelection()"
               >
                 <mat-option value="Agency"> Agency </mat-option>
                 <mat-option value="Person"> Person </mat-option>
@@ -76,11 +75,12 @@
                 placeholder="Agency name"
                 required
                 name="agencyName"
-                ngModel
-                #agencyName="ngModel">
-              <mat-icon matSuffix>perm_identity</mat-icon>
+                [(ngModel)]="agency.agencyName"
+                formControlName="agencyName"
+                #agencyName>
+              <mat-icon matSuffix>business</mat-icon>
               <mat-error
-                *ngIf="agencyName.invalid">
+                *ngIf="signUpForm.get('agencyName').hasError('required')">
                 Agency name is required
               </mat-error>
             </mat-form-field>
@@ -90,11 +90,11 @@
                 placeholder="Tax registration"
                 required
                 name="taxRegistration"
-                ngModel
-                #taxRegistration="ngModel">
-              <mat-icon matSuffix>perm_identity</mat-icon>
+                formControlName="taxRegistration"
+                #taxRegistration>
+              <mat-icon matSuffix>list_alt</mat-icon>
               <mat-error
-                *ngIf="taxRegistration.invalid">
+                *ngIf="signUpForm.get('taxRegistration').hasError('required')">
                 Tax registration is required
               </mat-error>
             </mat-form-field>
@@ -103,26 +103,26 @@
                 matInput
                 placeholder="Firstname"
                 required
-                name="firstname"
-                ngModel
-                #firstname="ngModel">
+                name="firstName"
+                formControlName="firstName"
+                #firstName>
               <mat-icon matSuffix>perm_identity</mat-icon>
               <mat-error
-                *ngIf="firstname.invalid">
+                *ngIf="signUpForm.get('firstName').hasError('required')">
                 Firstname is required
               </mat-error>
             </mat-form-field>
             <mat-form-field *ngIf="selectedItem=='Person'">
               <input
                 matInput
-                placeholder="lastname"
+                placeholder="lastName"
                 required
-                name="lastname"
-                ngModel
-                #lastname="ngModel">
+                name="lastName"
+                formControlName="lastName"
+                #lastname>
               <mat-icon matSuffix>perm_identity</mat-icon>
               <mat-error
-                *ngIf="lastname.invalid">
+                *ngIf="signUpForm.get('lastName').hasError('required')">
                 Lastname is required
               </mat-error>
             </mat-form-field>
@@ -131,12 +131,12 @@
                 matInput
                 placeholder="User Name"
                 required
-                name="username"
-                ngModel
-                #username="ngModel">
+                name="userName"
+                formControlName="userName"
+                #username>
               <mat-icon matSuffix>perm_identity</mat-icon>
               <mat-error
-                *ngIf="username.invalid">
+                *ngIf="signUpForm.get('userName').hasError('required')">
                 Username is required
               </mat-error>
             </mat-form-field>
@@ -146,9 +146,12 @@
                 placeholder="Email"
                 required
                 name="email"
-                ngModel
-                #email="ngModel">
+                formControlName="email"
+                #email>
               <mat-error *ngIf="email.invalid">Email is required</mat-error>
+              <mat-error *ngIf="signUpForm.get('email').hasError('email')">Wrong email</mat-error>
+              <mat-error *ngIf="signUpForm.get('email').hasError('required')">Email is required</mat-error>
+
               <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
             <mat-form-field>
@@ -161,16 +164,19 @@
                 required
                 minlength="6"
                 name="password"
-                ngModel
-                #password="ngModel">
-              <mat-error
-                *ngIf="password.errors && password.errors.required">
-                Password is required
-              </mat-error>
-              <mat-error
-                *ngIf="password.errors && password.errors.minlength">
-                Password must be of length 6
-              </mat-error>
+                formControlName="password"
+                #password
+               >
+<!--              <mat-error-->
+<!--                *ngIf="password.errors && password.errors.required">-->
+<!--                Password is required-->
+<!--              </mat-error>-->
+<!--              <mat-error-->
+<!--                *ngIf="password.errors && password.errors.minlength">-->
+<!--                Password must be of length 6-->
+<!--              </mat-error>-->
+              <mat-error *ngIf="signUpForm.get('password').hasError('required')">Password is required</mat-error>
+              <mat-error *ngIf="signUpForm.get('password').hasError('minlength')">Password must be of length 6</mat-error>
               <mat-icon matSuffix>lock</mat-icon>
 
             </mat-form-field>
@@ -179,18 +185,25 @@
               <input
                 [type]="toggle2.type"
                 matInput
-                placeholder="Password"
+                placeholder="rePassword"
                 type="password"
                 required
                 minlength="6"
                 name="repassword"
-                ngModel
-                #repassword="ngModel">
-              <mat-error
-                *ngIf="repassword.errors && repassword.errors.required">
-                Re-Enter Password is required
-              </mat-error>
+                formControlName="rePassword"
+
+               >
+<!--              <mat-error-->
+<!--                *ngIf="repassword.errors && repassword.errors.required ">-->
+<!--                Re-Enter Password is required-->
+<!--              </mat-error>-->
+<!--              <mat-error-->
+<!--                *ngIf="repassword.errors && repassword.hasError('validator') ">-->
+<!--                Re-Enter Password is required-->
+<!--              </mat-error>-->
               <mat-icon matSuffix>lock</mat-icon>
+              <mat-error *ngIf="signUpForm.get('rePassword').hasError('required')">Re-Enter Password required</mat-error>
+              <mat-error *ngIf="! signUpForm.get('rePassword').hasError('required')">Password must match</mat-error>
             </mat-form-field>
             <button
               mat-raised-button
