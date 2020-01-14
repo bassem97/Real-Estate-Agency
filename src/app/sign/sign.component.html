@@ -84,6 +84,14 @@
               <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
             <mat-form-field>
+              <mat-label>You are* </mat-label>
+              <mat-select >
+                <mat-option value="Agency"> Agency </mat-option>
+                <mat-option value="Person"> Person </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
               <mat-pass-toggle-visibility #toggle  matSuffix></mat-pass-toggle-visibility>
               <input
                 [type]="toggle.type"

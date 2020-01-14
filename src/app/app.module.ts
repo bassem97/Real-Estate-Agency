@@ -11,7 +11,7 @@ import {
   MatCardModule, MatCheckboxModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule,
+  MatInputModule, MatOptionModule, MatSelectModule,
   MatSliderModule,
   MatTabsModule
 } from '@angular/material';
@@ -48,7 +48,9 @@ import { FooterComponent } from './footer/footer.component';
     MatTabsModule,
     FormsModule,
     MatCheckboxModule,
-    MatPasswordStrengthModule
+    MatPasswordStrengthModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
