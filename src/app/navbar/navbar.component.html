@@ -2,6 +2,6 @@
   <span><mat-icon>house</mat-icon>HOUSING</span>
   <div class="spacer"></div>
     <a mat-button routerLink="/">Home</a>
-    <a mat-button routerLink="/sign">Sign in</a>
-    <a mat-button routerLink="/sign">Sign up</a>
+    <a mat-button [routerLink]="['/sign',0]" >Sign in</a>
+    <a mat-button [routerLink]="['/sign',1]" >Sign up</a>
 </mat-toolbar>
