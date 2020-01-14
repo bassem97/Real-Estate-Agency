@@ -12,20 +12,21 @@ import {Client} from '../Models/Client';
 })
 export class SignComponent implements OnInit {
   selected: number;
-  type = new FormControl('', Validators.required);
   selectedItem = 'Person';
   agency = new Agency();
   client = new Client();
   signUpForm: FormGroup;
+  signInForm: FormGroup;
 
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) { }
+  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
+  }
 
   ngOnInit() {
     // choosing sign in or sign up depanding on button clicked in navbar
     this.route.paramMap.subscribe(params => {
       this.selected = Number(params.get('id'));
     });
-    // form control
+    // form control sign Up
     this.signUpForm = this.formBuilder.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
@@ -33,11 +34,16 @@ export class SignComponent implements OnInit {
       taxRegistration: ['', [Validators.required]],
       agencyName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6) ]],
-      rePassword: ['', Validators.required] }, {
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      rePassword: ['', Validators.required]
+    }, {
       validator: MustMatch('password', 'rePassword')
     });
-
+    // form control sign in
+    this.signInForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
   }
 }
 
