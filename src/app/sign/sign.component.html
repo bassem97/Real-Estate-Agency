@@ -4,17 +4,17 @@
     <mat-tab-group [selectedIndex]="selected" mat-stretch-tabs class="example-stretched-tabs">
       <mat-tab label="Sign In">
         <mat-card-content>
-          <form [formGroup]="signInForm" action="">
+          <form [formGroup]="signInForm" (ngSubmit)="signInForm.valid" novalidate >
             <mat-form-field>
               <input
                 matInput
-                placeholder="Email"
+                placeholder="Email/Username"
                 required
-                name="email"
-                formControlName="email"
-                #email>
-              <mat-error *ngIf="signInForm.get('email').hasError('email')">Wrong email</mat-error>
-              <mat-error *ngIf="signInForm.get('email').hasError('required')">Email is required</mat-error>
+                name="emailUsername"
+                formControlName="emailUsername"
+                #emailUsername>
+              <mat-error *ngIf="signInForm.get('emailUsername').hasError('minlength')">email/Username must be of length 4</mat-error>
+              <mat-error *ngIf="signInForm.get('emailUsername').hasError('required')">Email/UserName is required</mat-error>
               <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
             <mat-form-field>
@@ -102,6 +102,7 @@
                 required
                 name="firstName"
                 formControlName="firstName"
+                [(ngModel)]="this.client.firstName"
                 #firstName>
               <mat-icon matSuffix>perm_identity</mat-icon>
               <mat-error
@@ -115,6 +116,7 @@
                 placeholder="lastName"
                 required
                 name="lastName"
+                [(ngModel)]="this.client.lastName"
                 formControlName="lastName"
                 #lastname>
               <mat-icon matSuffix>perm_identity</mat-icon>
@@ -130,11 +132,16 @@
                 required
                 name="userName"
                 formControlName="userName"
+                [(ngModel)]="this.client.username"
                 #username>
               <mat-icon matSuffix>perm_identity</mat-icon>
               <mat-error
                 *ngIf="signUpForm.get('userName').hasError('required')">
                 Username is required
+              </mat-error>
+              <mat-error
+                *ngIf="signUpForm.get('userName').hasError('minlength')">
+                UserName must be of length 4
               </mat-error>
             </mat-form-field>
             <mat-form-field>
@@ -144,9 +151,12 @@
                 required
                 name="email"
                 formControlName="email"
+                (keyup)="searchEmail()"
+                [(ngModel)]="this.client.email"
                 #email>
               <mat-error *ngIf="signUpForm.get('email').hasError('email')">Wrong email</mat-error>
               <mat-error *ngIf="signUpForm.get('email').hasError('required')">Email is required</mat-error>
+              <mat-error *ngIf="isEmailExist">A user with this email are already registered</mat-error>
 
               <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
@@ -161,6 +171,7 @@
                 minlength="6"
                 name="password"
                 formControlName="password"
+                [(ngModel)]="this.client.password"
                 #password
                >
 <!--              <mat-error-->
@@ -204,6 +215,8 @@
             <button
               mat-raised-button
               color="primary"
+              type="submit"
+              (click)="register()"
               class="login-button">
               Sign Up
             </button>

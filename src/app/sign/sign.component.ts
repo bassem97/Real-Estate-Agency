@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Agency} from '../Models/Agency';
 import {Client} from '../Models/Client';
+import {ClientService} from '../services/Client/client.service';
 
 @Component({
   selector: 'app-sign',
@@ -13,12 +14,13 @@ import {Client} from '../Models/Client';
 export class SignComponent implements OnInit {
   selected: number;
   selectedItem = 'Person';
-  agency = new Agency();
-  client = new Client();
+  agency: Agency = new Agency();
+  client: Client = new Client();
   signUpForm: FormGroup;
   signInForm: FormGroup;
+  isEmailExist = false;
 
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
+  constructor(private route: ActivatedRoute, private clientService: ClientService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
@@ -28,22 +30,32 @@ export class SignComponent implements OnInit {
     });
     // form control sign Up
     this.signUpForm = this.formBuilder.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      userName: ['', [Validators.required]],
+      firstName: [this.client.firstName, [Validators.required]],
+      lastName: [this.client.lastName, [Validators.required]],
+      userName: [this.client.username, [Validators.required,  Validators.minLength(4)]],
       taxRegistration: ['', [Validators.required]],
       agencyName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      email: [this.client.email, [Validators.required, Validators.email]],
+      password: [this.client.password, [Validators.required, Validators.minLength(6)]],
       rePassword: ['', Validators.required]
     }, {
       validator: MustMatch('password', 'rePassword')
     });
     // form control sign in
     this.signInForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      emailUsername: ['', [Validators.required, Validators.minLength(4)]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  register() {
+    this.clientService.add(this.client).subscribe();
+  }
+
+  searchEmail() {
+    // if (this.clientService.findByEmail(this.client.email).subscribe(data => console.log(data)) { this.isEmailExist = true; }
+    this.clientService.findByEmail(this.client.email).subscribe(data => console.log(data)   );
+    // if (this.isEmailExist) {console.log('exist'); }
   }
 }
 

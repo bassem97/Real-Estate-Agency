@@ -22,7 +22,8 @@ import { ContactComponent } from './contact/contact.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatPasswordStrengthModule} from '@angular-material-extensions/password-strength';
 import { FooterComponent } from './footer/footer.component';
-
+import {HttpClientModule} from '@angular/common/http';
+//
 
 @NgModule({
   declarations: [
@@ -38,6 +39,8 @@ import { FooterComponent } from './footer/footer.component';
     MatSliderModule,
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
+
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
@@ -53,7 +56,7 @@ import { FooterComponent } from './footer/footer.component';
     MatSelectModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
