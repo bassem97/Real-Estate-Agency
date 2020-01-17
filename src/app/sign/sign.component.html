@@ -137,8 +137,10 @@
                 required
                 name="userName"
                 formControlName="userName"
-                [(ngModel)]="selectedItem == 'Person' ? client.username : agency.username"/>
-
+                [ngModel]="selectedItem === 'Person' ? client.username : agency.username"
+                (ngModelChange)="selectedItem === 'Person' ? (client.username = $event) : (agency.username = $event)"
+              />
+              <!--                [(ngModel)]="selectedItem === 'Person' ? client.email : agency.email"-->
 
 
               <mat-icon matSuffix>perm_identity</mat-icon>
@@ -159,10 +161,11 @@
                 name="email"
                 formControlName="email"
                 (change)="searchEmail()"
-                [(ngModel)]="selectedItem == 'Person' ? client.email : agency.email"
+                [ngModel]="selectedItem === 'Person' ? client.email : agency.email"
+                (ngModelChange)="selectedItem === 'Person' ? (client.email = $event) : (agency.email = $event)"
                 #email>
-<!--              <mat-error *ngIf="signUpForm.get('email').hasError('email')">Wrong email</mat-error>-->
-<!--              <mat-error *ngIf="signUpForm.get('email').hasError('required')">Email is required</mat-error>-->
+              <mat-error *ngIf="signUpForm.get('email').hasError('email')">Wrong email</mat-error>
+              <mat-error *ngIf="signUpForm.get('email').hasError('required')">Email is required</mat-error>
               <mat-error *ngIf="isEmailExist==true">A user with this email are already registered</mat-error>
 
               <mat-icon matSuffix>email</mat-icon>
@@ -178,7 +181,8 @@
                 minlength="6"
                 name="password"
                 formControlName="password"
-                [(ngModel)]="selectedItem == 'Person' ? client.password : agency.password"
+                [ngModel]="selectedItem === 'Person' ? client.password : agency.password"
+                (ngModelChange)="selectedItem === 'Person' ? (client.password = $event) : (agency.password = $event)"
                 #password
                >
 <!--              <mat-error-->

@@ -6,6 +6,8 @@ import {Agency} from '../Models/Agency';
 import {Client} from '../Models/Client';
 import {ClientService} from '../services/Client/client.service';
 import {AgencyService} from '../services/Agency/agency.service';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {DialogComponent} from './dialog.component';
 
 @Component({
   selector: 'app-sign',
@@ -13,9 +15,10 @@ import {AgencyService} from '../services/Agency/agency.service';
   styleUrls: ['./sign.component.css']
 })
 export class SignComponent implements OnInit {
+  dialogComponent: MatDialogRef<DialogComponent>;
 
 
-  constructor(private route: ActivatedRoute, private clientService: ClientService, private agencyService: AgencyService, private formBuilder: FormBuilder) {
+  constructor(private route: ActivatedRoute, private clientService: ClientService, private agencyService: AgencyService, private formBuilder: FormBuilder, public dialog: MatDialog) {
   }
   selected: number;
   selectedItem = 'Person';
@@ -52,7 +55,20 @@ export class SignComponent implements OnInit {
   }
 
   register() {
-    this.selectedItem === 'Person' ? this.clientService.add(this.client).subscribe() : this.agencyService.add(this.agency).subscribe();
+    if (this.selectedItem === 'Person') {
+      this.clientService.add(this.client).subscribe();
+      this.dialogComponent = this.dialog.open(DialogComponent, {
+        width: '350px',
+        data : {firstName: this.client.firstName, lastName: this.client.lastName}
+      });
+    } else {
+      this.agencyService.add(this.agency).subscribe();
+      this.dialogComponent = this.dialog.open(DialogComponent, {
+        width: '350px',
+        data : {agencyName: this.agency.agencyName}
+      });
+    }
+    this.signUpForm.reset();
   }
 
   searchEmail() {
@@ -74,6 +90,8 @@ export class SignComponent implements OnInit {
   changeSelection() {
 
   }
+
+
 }
 
 export function MustMatch(controlName: string, matchingControlName: string) {

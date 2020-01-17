@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {
   MatButtonModule,
-  MatCardModule, MatCheckboxModule,
+  MatCardModule, MatCheckboxModule, MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule, MatOptionModule, MatSelectModule,
@@ -23,6 +23,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatPasswordStrengthModule} from '@angular-material-extensions/password-strength';
 import { FooterComponent } from './footer/footer.component';
 import {HttpClientModule} from '@angular/common/http';
+import {DialogComponent} from './sign/dialog.component';
 //
 
 @NgModule({
@@ -33,14 +34,14 @@ import {HttpClientModule} from '@angular/common/http';
     SignComponent,
     AboutComponent,
     ContactComponent,
-    FooterComponent
+    FooterComponent,
+    DialogComponent
   ],
   imports: [
     MatSliderModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
@@ -54,8 +55,10 @@ import {HttpClientModule} from '@angular/common/http';
     MatPasswordStrengthModule,
     MatOptionModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
+  entryComponents: [DialogComponent],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
