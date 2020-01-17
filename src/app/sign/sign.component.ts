@@ -69,6 +69,7 @@ export class SignComponent implements OnInit {
       });
     }
     this.signUpForm.reset();
+    this.selected = 0;
   }
 
   searchEmail() {

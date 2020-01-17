@@ -29,9 +29,14 @@ export class ClientService {
   }
 
   findById(id): Observable<any> {
-    return this.http.get(this.baseUrl  + id);
+    return this.http.get(this.baseUrl + 'clientById/'  + id);
   }
+
+  findByUsername(username): Observable<any> {
+    return this.http.get(this.baseUrl + 'clientByUsername'  + username);
+  }
+
   findByEmail(email): Observable<any> {
-     return this.http.get(this.baseUrl + 'client/' + email);
+     return this.http.get(this.baseUrl + 'clientByEmail/' + email);
   }
 }
