@@ -139,7 +139,8 @@
                 formControlName="userName"
                 [(ngModel)]="selectedItem == 'Person' ? client.username : agency.username"/>
 
-                
+
+
               <mat-icon matSuffix>perm_identity</mat-icon>
               <mat-error
                 *ngIf="signUpForm.get('userName').hasError('required')">
