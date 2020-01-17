@@ -61,7 +61,10 @@
               <mat-label>You are </mat-label>
               <mat-select
                 [(ngModel)]="selectedItem"
+                name="type"
+                (selectionChange)="changeSelection()"
                 [ngModelOptions]="{standalone: true}"
+                #type
               >
                 <mat-option value="Agency"> Agency </mat-option>
                 <mat-option value="Person"> Person </mat-option>
@@ -74,6 +77,7 @@
                 required
                 name="agencyName"
                 formControlName="agencyName"
+                [(ngModel)]="agency.agencyName"
                 #agencyName>
               <mat-icon matSuffix>business</mat-icon>
               <mat-error
@@ -88,6 +92,7 @@
                 required
                 name="taxRegistration"
                 formControlName="taxRegistration"
+                [(ngModel)]="agency.taxRegistration"
                 #taxRegistration>
               <mat-icon matSuffix>list_alt</mat-icon>
               <mat-error
@@ -132,7 +137,8 @@
                 required
                 name="userName"
                 formControlName="userName"
-                [(ngModel)]="this.client.username"
+                [(ngModel)]="selectedItem == 'Person' ? client.username : agency.username"/>
+
                 #username>
               <mat-icon matSuffix>perm_identity</mat-icon>
               <mat-error
@@ -151,12 +157,12 @@
                 required
                 name="email"
                 formControlName="email"
-                (keyup)="searchEmail()"
-                [(ngModel)]="this.client.email"
+                (change)="searchEmail()"
+                [(ngModel)]="selectedItem == 'Person' ? client.email : agency.email"
                 #email>
-              <mat-error *ngIf="signUpForm.get('email').hasError('email')">Wrong email</mat-error>
-              <mat-error *ngIf="signUpForm.get('email').hasError('required')">Email is required</mat-error>
-              <mat-error *ngIf="isEmailExist">A user with this email are already registered</mat-error>
+<!--              <mat-error *ngIf="signUpForm.get('email').hasError('email')">Wrong email</mat-error>-->
+<!--              <mat-error *ngIf="signUpForm.get('email').hasError('required')">Email is required</mat-error>-->
+              <mat-error *ngIf="isEmailExist==true">A user with this email are already registered</mat-error>
 
               <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
@@ -171,7 +177,7 @@
                 minlength="6"
                 name="password"
                 formControlName="password"
-                [(ngModel)]="this.client.password"
+                [(ngModel)]="selectedItem == 'Person' ? client.password : agency.password"
                 #password
                >
 <!--              <mat-error-->

@@ -5,6 +5,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Agency} from '../Models/Agency';
 import {Client} from '../Models/Client';
 import {ClientService} from '../services/Client/client.service';
+import {AgencyService} from '../services/Agency/agency.service';
 
 @Component({
   selector: 'app-sign',
@@ -12,16 +13,18 @@ import {ClientService} from '../services/Client/client.service';
   styleUrls: ['./sign.component.css']
 })
 export class SignComponent implements OnInit {
+
+
+  constructor(private route: ActivatedRoute, private clientService: ClientService, private agencyService: AgencyService, private formBuilder: FormBuilder) {
+  }
   selected: number;
   selectedItem = 'Person';
   agency: Agency = new Agency();
   client: Client = new Client();
   signUpForm: FormGroup;
   signInForm: FormGroup;
-  isEmailExist = false;
-
-  constructor(private route: ActivatedRoute, private clientService: ClientService, private formBuilder: FormBuilder) {
-  }
+  private isEmailExist = false;
+  private data: any;
 
   ngOnInit() {
     // choosing sign in or sign up depanding on button clicked in navbar
@@ -49,13 +52,27 @@ export class SignComponent implements OnInit {
   }
 
   register() {
-    this.clientService.add(this.client).subscribe();
+    this.selectedItem === 'Person' ? this.clientService.add(this.client).subscribe() : this.agencyService.add(this.agency).subscribe();
   }
 
   searchEmail() {
-    // if (this.clientService.findByEmail(this.client.email).subscribe(data => console.log(data)) { this.isEmailExist = true; }
-    this.clientService.findByEmail(this.client.email).subscribe(data => console.log(data)   );
+    // tslint:disable-next-line:prefer-const
+
+    if (this.client.email != null) {
+    this.clientService.findByEmail(this.client.email).subscribe(
+      data => { this.data = data ;  }
+      ) ;
+    }
+
+    this.data != null ? this.isEmailExist = true : this.isEmailExist = false;
+    console.log(this.isEmailExist);
+    console.log(this.data);
     // if (this.isEmailExist) {console.log('exist'); }
+  }
+
+
+  changeSelection() {
+
   }
 }
 
