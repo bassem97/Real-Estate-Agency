@@ -32,4 +32,17 @@ mat-card-content {
   width: 80%;
   margin: 20px auto;
 }
+.mat-error{
+  margin-left: 40px;
+}
+table{
+  width: 80%;
+  display: block;
+  margin: auto;
+  border: 1px solid black;
+}
+td{
+  width: 80%;
+  margin: auto;
+}
 

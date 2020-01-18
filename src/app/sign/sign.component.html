@@ -62,7 +62,6 @@
               <mat-select
                 [(ngModel)]="selectedItem"
                 name="type"
-                (selectionChange)="changeSelection()"
                 [ngModelOptions]="{standalone: true}"
                 #type
               >
@@ -93,6 +92,7 @@
                 name="taxRegistration"
                 formControlName="taxRegistration"
                 [(ngModel)]="agency.taxRegistration"
+                (blur)="Existence('taxRegistration'); ; this.isTaxRegistrationFocused = true"
                 #taxRegistration>
               <mat-icon matSuffix>list_alt</mat-icon>
               <mat-error
@@ -100,6 +100,9 @@
                 Tax registration is required
               </mat-error>
             </mat-form-field>
+            <div class="mat-error"
+                 *ngIf="isFieldExist == true && this.isTaxRegistrationFocused == true">Tax Registartion already exist
+            </div>
             <mat-form-field *ngIf="selectedItem=='Person'">
               <input
                 matInput
@@ -137,6 +140,7 @@
                 required
                 name="userName"
                 formControlName="userName"
+                (blur)="Existence('username'); this.isUsernameFocused= true"
                 [ngModel]="selectedItem === 'Person' ? client.username : agency.username"
                 (ngModelChange)="selectedItem === 'Person' ? (client.username = $event) : (agency.username = $event)"
               />
@@ -153,6 +157,9 @@
                 UserName must be of length 4
               </mat-error>
             </mat-form-field>
+            <div class="mat-error"
+                 *ngIf="isFieldExist == true && this.isUsernameFocused == true">Username already exist
+            </div>
             <mat-form-field>
               <input
                 matInput
@@ -160,16 +167,18 @@
                 required
                 name="email"
                 formControlName="email"
-                (change)="searchEmail()"
+                (blur)="Existence('email'); isEmailFocused = true"
+
                 [ngModel]="selectedItem === 'Person' ? client.email : agency.email"
                 (ngModelChange)="selectedItem === 'Person' ? (client.email = $event) : (agency.email = $event)"
                 #email>
               <mat-error *ngIf="signUpForm.get('email').hasError('email')">Wrong email</mat-error>
               <mat-error *ngIf="signUpForm.get('email').hasError('required')">Email is required</mat-error>
-              <mat-error *ngIf="isEmailExist==true">A user with this email are already registered</mat-error>
-
               <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
+            <div class="mat-error"
+                 *ngIf="isFieldExist == true && this.isEmailFocused == true">Email already exist
+            </div>
             <mat-form-field>
               <mat-pass-toggle-visibility #toggle  matSuffix></mat-pass-toggle-visibility>
               <input

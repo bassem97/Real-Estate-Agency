@@ -33,7 +33,7 @@ export class ClientService {
   }
 
   findByUsername(username): Observable<any> {
-    return this.http.get(this.baseUrl + 'clientByUsername'  + username);
+    return this.http.get(this.baseUrl + 'clientByUsername/'  + username);
   }
 
   findByEmail(email): Observable<any> {

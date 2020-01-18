@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {NavbarComponent} from '../navbar/navbar.component';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, } from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Agency} from '../Models/Agency';
 import {Client} from '../Models/Client';
 import {ClientService} from '../services/Client/client.service';
 import {AgencyService} from '../services/Agency/agency.service';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {DialogComponent} from './dialog.component';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-sign',
@@ -15,19 +15,28 @@ import {DialogComponent} from './dialog.component';
   styleUrls: ['./sign.component.css']
 })
 export class SignComponent implements OnInit {
-  dialogComponent: MatDialogRef<DialogComponent>;
-
-
-  constructor(private route: ActivatedRoute, private clientService: ClientService, private agencyService: AgencyService, private formBuilder: FormBuilder, public dialog: MatDialog) {
+  // tslint:disable-next-line:max-line-length
+  constructor(private route: ActivatedRoute,
+              private clientService: ClientService,
+              private agencyService: AgencyService,
+              private formBuilder: FormBuilder,
+              public dialog: MatDialog,
+              ) {
   }
+  dialogComponent: MatDialogRef<DialogComponent>;
   selected: number;
   selectedItem = 'Person';
   agency: Agency = new Agency();
   client: Client = new Client();
   signUpForm: FormGroup;
   signInForm: FormGroup;
-  private isEmailExist = false;
-  private data: any;
+  private isFieldExist = false;
+  private isEmailFocused = false;
+  private isUsernameFocused = false ;
+  private isTaxRegistrationFocused = false;
+
+
+
 
   ngOnInit() {
     // choosing sign in or sign up depanding on button clicked in navbar
@@ -45,7 +54,7 @@ export class SignComponent implements OnInit {
       password: [this.client.password, [Validators.required, Validators.minLength(6)]],
       rePassword: ['', Validators.required]
     }, {
-      validator: MustMatch('password', 'rePassword')
+      validators: [ MustMatch('password', 'rePassword'), ]
     });
     // form control sign in
     this.signInForm = this.formBuilder.group({
@@ -53,7 +62,7 @@ export class SignComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
-
+  // signing up client or agency depanding on selected item
   register() {
     if (this.selectedItem === 'Person') {
       this.clientService.add(this.client).subscribe();
@@ -69,43 +78,62 @@ export class SignComponent implements OnInit {
       });
     }
     this.signUpForm.reset();
-    this.selected = 0;
+    this.selected = 0;          // switch to sign in table
+  }
+  // choose between  agency or client input to send to existing method
+  Existence(field: string) {
+    if (this.selectedItem === 'Person') {
+      if (field === 'username') {
+        // tslint:disable-next-line:max-line-length
+        this.Existing(this.client.username, this.clientService.findByUsername(this.client.username)); // send username of client and the appropriate find method of client service to Existing method
+        this.isUsernameFocused = false;
+      } else {
+        this.Existing(this.client.email, this.clientService.findByEmail(this.client.email));          // send email of...
+        this.isEmailFocused = false;
+      }
+    } else {
+        if (field === 'username') {
+          // tslint:disable-next-line:max-line-length
+          this.Existing(this.agency.username, this.agencyService.findByUsername(this.agency.username)); // send username of agency and the appropriate find method of agency service to Existing method
+          this.isUsernameFocused = false;
+        } else if (field === 'email') {
+          this.Existing(this.agency.email, this.agencyService.findByEmail(this.agency.email)); // send email of ...
+          this.isEmailFocused = false;
+        } else {
+          // tslint:disable-next-line:max-line-length
+          this.Existing(this.agency.taxRegistration, this.agencyService.findBytaxRegistration(this.agency.taxRegistration)); // send taxRegistration and his find method of agency service to Existing method
+          this.isTaxRegistrationFocused = false;
+          }
+      }
   }
 
-  searchEmail() {
-    // tslint:disable-next-line:prefer-const
-
-    if (this.client.email != null) {
-    this.clientService.findByEmail(this.client.email).subscribe(
-      data => { this.data = data ;  }
-      ) ;
+  // get the field of selected input and the method of service to ensure the right searching
+Existing(field: string,  method: Observable<any> ) {
+  if (field != null) {
+        method.subscribe(
+          data => data != null ? this.isFieldExist = true : this.isFieldExist = false
+        );
+        if (field === this.client.email || field === this.agency.email ) {
+          this.isTaxRegistrationFocused = false;
+          this.isUsernameFocused = false ;
+        } else if (field === this.client.username || field === this.agency.username ) {
+              this.isEmailFocused = false;
+              this.isTaxRegistrationFocused = false;
+              } else {
+          this.isUsernameFocused = false;
+          this.isEmailFocused = false;
+        }
+      }
     }
-
-    this.data != null ? this.isEmailExist = true : this.isEmailExist = false;
-    console.log(this.isEmailExist);
-    console.log(this.data);
-    // if (this.isEmailExist) {console.log('exist'); }
-  }
-
-
-  changeSelection() {
-
-  }
-
-
 }
 
 export function MustMatch(controlName: string, matchingControlName: string) {
   return (formGroup: FormGroup) => {
     const control = formGroup.controls[controlName];
     const matchingControl = formGroup.controls[matchingControlName];
-
     if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-      // return if another validator has already found an error on the matchingControl
       return;
     }
-
-    // set error on matchingControl if validation fails
     if (control.value !== matchingControl.value) {
       matchingControl.setErrors({ mustMatch: true });
     } else {

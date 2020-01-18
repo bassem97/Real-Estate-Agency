@@ -37,6 +37,11 @@ export class AgencyService {
     return this.http.get(this.baseUrl + 'agencyByEmail/' + email);
   }
 
+  findByUsername(username): Observable<any> {
+    return this.http.get(this.baseUrl + 'agencyByUsername/' + username);
+  }
+
+
   findBytaxRegistration(taxRegistration): Observable<any> {
     return this.http.get(this.baseUrl + 'agencyByTaxRegistration/' + taxRegistration);
   }
