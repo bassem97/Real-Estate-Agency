@@ -4,15 +4,14 @@
     <mat-tab-group [selectedIndex]="selected" mat-stretch-tabs class="example-stretched-tabs">
       <mat-tab label="Sign In">
         <mat-card-content>
-          <form [formGroup]="signInForm" (ngSubmit)="signInForm.valid" novalidate >
+          <form [formGroup]="signInForm" (ngSubmit)="signInForm.valid" (submit)="login($event)" novalidate >
             <mat-form-field>
               <input
                 matInput
                 placeholder="Email/Username"
                 required
-                name="emailUsername"
-                formControlName="emailUsername"
-                #emailUsername>
+                id="emailUsername"
+                formControlName="emailUsername">
               <mat-error *ngIf="signInForm.get('emailUsername').hasError('minlength')">email/Username must be of length 4</mat-error>
               <mat-error *ngIf="signInForm.get('emailUsername').hasError('required')">Email/UserName is required</mat-error>
               <mat-icon matSuffix>email</mat-icon>
@@ -25,9 +24,8 @@
                 placeholder="Password"
                 type="password"
                 required
-                name="password"
-                formControlName="password"
-                #password>
+                id="password"
+                formControlName="password">
               <mat-error
                 *ngIf="signInForm.get('password').hasError('required')">
                 Password is required
@@ -42,7 +40,9 @@
             <button
               mat-raised-button
               color="primary"
-              class="login-button">
+              class="login-button"
+              type="submit"
+              value="submit">
               Sign In
             </button>
 
@@ -218,16 +218,7 @@
                 minlength="6"
                 name="repassword"
                 formControlName="rePassword"
-
                >
-<!--              <mat-error-->
-<!--                *ngIf="repassword.errors && repassword.errors.required ">-->
-<!--                Re-Enter Password is required-->
-<!--              </mat-error>-->
-<!--              <mat-error-->
-<!--                *ngIf="repassword.errors && repassword.hasError('validator') ">-->
-<!--                Re-Enter Password is required-->
-<!--              </mat-error>-->
               <mat-icon matSuffix>lock</mat-icon>
               <mat-error *ngIf="signUpForm.get('rePassword').hasError('required')">Re-Enter Password required</mat-error>
               <mat-error *ngIf="! signUpForm.get('rePassword').hasError('required')">Password must match</mat-error>

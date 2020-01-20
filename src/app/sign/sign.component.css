@@ -33,16 +33,7 @@ mat-card-content {
   margin: 20px auto;
 }
 .mat-error{
-  margin-left: 40px;
+  margin-left: 10%;
 }
-table{
-  width: 80%;
-  display: block;
-  margin: auto;
-  border: 1px solid black;
-}
-td{
-  width: 80%;
-  margin: auto;
-}
+
 

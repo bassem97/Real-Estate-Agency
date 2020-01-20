@@ -24,6 +24,7 @@ import {MatPasswordStrengthModule} from '@angular-material-extensions/password-s
 import { FooterComponent } from './footer/footer.component';
 import {HttpClientModule} from '@angular/common/http';
 import {DialogComponent} from './sign/dialog.component';
+import { AdminComponent } from './admin/admin.component';
 //
 
 @NgModule({
@@ -35,7 +36,8 @@ import {DialogComponent} from './sign/dialog.component';
     AboutComponent,
     ContactComponent,
     FooterComponent,
-    DialogComponent
+    DialogComponent,
+    AdminComponent
   ],
   imports: [
     MatSliderModule,

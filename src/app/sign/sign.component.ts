@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, } from '@angular/router';
+import {ActivatedRoute, Router,} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Agency} from '../Models/Agency';
 import {Client} from '../Models/Client';
@@ -8,6 +8,7 @@ import {AgencyService} from '../services/Agency/agency.service';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {DialogComponent} from './dialog.component';
 import {Observable} from 'rxjs';
+import {AuthenticationService} from '../services/Authentication/authentication.service';
 
 @Component({
   selector: 'app-sign',
@@ -21,6 +22,7 @@ export class SignComponent implements OnInit {
               private agencyService: AgencyService,
               private formBuilder: FormBuilder,
               public dialog: MatDialog,
+              private router: Router,
               ) {
   }
   dialogComponent: MatDialogRef<DialogComponent>;
@@ -34,6 +36,7 @@ export class SignComponent implements OnInit {
   private isEmailFocused = false;
   private isUsernameFocused = false ;
   private isTaxRegistrationFocused = false;
+  private auth: AuthenticationService;
 
 
 
@@ -62,6 +65,30 @@ export class SignComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
+
+  login(event) {
+    event.preventDefault();
+    const target = event.target ;
+    const username = target.querySelector('#emailUsername').value;
+    const password = target.querySelector('#password').value;
+    this.auth.getUserDetails(username, password);
+    console.log(username , password);
+
+
+
+
+    // console.log('userComponent  ');
+    // // @ts-ignore
+    // return this.auth.login(user).subscribe(data => {
+    //   const jwt = data.headers.get('Authorization');
+    //   this.auth.saveToken(jwt) ;
+    //   console.log( this.auth.isAuthentified());
+    //   this.router.navigate(['']);
+    // }, error => {
+    // });
+  }
+
+
   // signing up client or agency depanding on selected item
   register() {
     if (this.selectedItem === 'Person') {
@@ -85,19 +112,25 @@ export class SignComponent implements OnInit {
     if (this.selectedItem === 'Person') {
       if (field === 'username') {
         // tslint:disable-next-line:max-line-length
-        this.Existing(this.client.username, this.clientService.findByUsername(this.client.username)); // send username of client and the appropriate find method of client service to Existing method
+        this.Existing(this.client.username, this.clientService.findByUsername(this.client.username)); // send username of client and service method of client service to Existing method
+        // tslint:disable-next-line:max-line-length
+        this.Existing(this.client.username, this.agencyService.findByUsername(this.client.username)); // send username of client and service method of client service to Existing method
         this.isUsernameFocused = false;
       } else {
         this.Existing(this.client.email, this.clientService.findByEmail(this.client.email));          // send email of...
+        this.Existing(this.client.email, this.agencyService.findByEmail(this.client.email));          // send email of...
         this.isEmailFocused = false;
       }
     } else {
         if (field === 'username') {
           // tslint:disable-next-line:max-line-length
-          this.Existing(this.agency.username, this.agencyService.findByUsername(this.agency.username)); // send username of agency and the appropriate find method of agency service to Existing method
+          this.Existing(this.agency.username, this.agencyService.findByUsername(this.agency.username)); // send username of agency and  service method of agency service to Existing method
+          // tslint:disable-next-line:max-line-length
+          this.Existing(this.agency.username, this.clientService.findByUsername(this.agency.username)); // send username of agency and  service method of client service to Existing method
           this.isUsernameFocused = false;
         } else if (field === 'email') {
           this.Existing(this.agency.email, this.agencyService.findByEmail(this.agency.email)); // send email of ...
+          this.Existing(this.agency.email, this.clientService.findByEmail(this.agency.email)); // send email of ...
           this.isEmailFocused = false;
         } else {
           // tslint:disable-next-line:max-line-length
