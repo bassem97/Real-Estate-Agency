@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { NavbarComponent } from './Components/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {
@@ -15,16 +15,16 @@ import {
   MatSliderModule,
   MatTabsModule
 } from '@angular/material';
-import { HomeComponent } from './home/home.component';
-import { SignComponent } from './sign/sign.component';
-import { AboutComponent } from './about/about.component';
-import { ContactComponent } from './contact/contact.component';
+import { HomeComponent } from './Components/home/home.component';
+import { SignComponent } from './Components/sign/sign.component';
+import { AboutComponent } from './Components/about/about.component';
+import { ContactComponent } from './Components/contact/contact.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatPasswordStrengthModule} from '@angular-material-extensions/password-strength';
-import { FooterComponent } from './footer/footer.component';
+import { FooterComponent } from './Components/footer/footer.component';
 import {HttpClientModule} from '@angular/common/http';
-import {DialogComponent} from './sign/dialog.component';
-import { AdminComponent } from './admin/admin.component';
+import {DialogComponent} from './Components/sign/dialog.component';
+import { NewsletterComponent } from './Components/newsletter/newsletter.component';
 //
 
 @NgModule({
@@ -37,7 +37,7 @@ import { AdminComponent } from './admin/admin.component';
     ContactComponent,
     FooterComponent,
     DialogComponent,
-    AdminComponent
+    NewsletterComponent
   ],
   imports: [
     MatSliderModule,
