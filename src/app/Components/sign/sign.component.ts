@@ -5,10 +5,11 @@ import {Agency} from '../../Models/Agency';
 import {Client} from '../../Models/Client';
 import {ClientService} from '../../services/Client/client.service';
 import {AgencyService} from '../../services/Agency/agency.service';
-import {MatDialog, MatDialogRef} from '@angular/material' 
+import {MatDialog, MatDialogRef} from '@angular/material'
 import {DialogComponent} from './dialog.component';
 import {Observable} from 'rxjs';
 import {AuthenticationService} from '../../services/Authentication/authentication.service';
+import {HttpParams} from '@angular/common/http';
 
 @Component({
   selector: 'app-sign',
@@ -17,13 +18,14 @@ import {AuthenticationService} from '../../services/Authentication/authenticatio
 })
 export class SignComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
+
   constructor(private route: ActivatedRoute,
               private clientService: ClientService,
               private agencyService: AgencyService,
               private formBuilder: FormBuilder,
               public dialog: MatDialog,
               private router: Router,
-              ) {
+  ) {
   }
   dialogComponent: MatDialogRef<DialogComponent>;
   selected: number;
@@ -37,6 +39,9 @@ export class SignComponent implements OnInit {
   private isUsernameFocused = false ;
   private isTaxRegistrationFocused = false;
   private auth: AuthenticationService;
+  private emailUsername: string;
+  private password: string;
+  public loginData = {username: this.emailUsername, password: this.password};
 
 
 
@@ -66,26 +71,7 @@ export class SignComponent implements OnInit {
     });
   }
 
-  login(event) {
-    event.preventDefault();
-    const target = event.target ;
-    const username = target.querySelector('#emailUsername').value;
-    const password = target.querySelector('#password').value;
-    this.auth.getUserDetails(username, password);
-    console.log(username , password);
-
-
-
-
-    // console.log('userComponent  ');
-    // // @ts-ignore
-    // return this.auth.login(user).subscribe(data => {
-    //   const jwt = data.headers.get('Authorization');
-    //   this.auth.saveToken(jwt) ;
-    //   console.log( this.auth.isAuthentified());
-    //   this.router.navigate(['']);
-    // }, error => {
-    // });
+  login() {
   }
 
 
@@ -122,42 +108,43 @@ export class SignComponent implements OnInit {
         this.isEmailFocused = false;
       }
     } else {
-        if (field === 'username') {
-          // tslint:disable-next-line:max-line-length
-          this.Existing(this.agency.username, this.agencyService.findByUsername(this.agency.username)); // send username of agency and  service method of agency service to Existing method
-          // tslint:disable-next-line:max-line-length
-          this.Existing(this.agency.username, this.clientService.findByUsername(this.agency.username)); // send username of agency and  service method of client service to Existing method
-          this.isUsernameFocused = false;
-        } else if (field === 'email') {
-          this.Existing(this.agency.email, this.agencyService.findByEmail(this.agency.email)); // send email of ...
-          this.Existing(this.agency.email, this.clientService.findByEmail(this.agency.email)); // send email of ...
-          this.isEmailFocused = false;
-        } else {
-          // tslint:disable-next-line:max-line-length
-          this.Existing(this.agency.taxRegistration, this.agencyService.findBytaxRegistration(this.agency.taxRegistration)); // send taxRegistration and his find method of agency service to Existing method
-          this.isTaxRegistrationFocused = false;
-          }
+      if (field === 'username') {
+        // tslint:disable-next-line:max-line-length
+        this.Existing(this.agency.username, this.agencyService.findByUsername(this.agency.username)); // send username of agency and  service method of agency service to Existing method
+        // tslint:disable-next-line:max-line-length
+        this.Existing(this.agency.username, this.clientService.findByUsername(this.agency.username)); // send username of agency and  service method of client service to Existing method
+        this.isUsernameFocused = false;
+      } else if (field === 'email') {
+        this.Existing(this.agency.email, this.agencyService.findByEmail(this.agency.email)); // send email of ...
+        this.Existing(this.agency.email, this.clientService.findByEmail(this.agency.email)); // send email of ...
+        this.isEmailFocused = false;
+      } else {
+        // tslint:disable-next-line:max-line-length
+        this.Existing(this.agency.taxRegistration, this.agencyService.findBytaxRegistration(this.agency.taxRegistration)); // send taxRegistration and his find method of agency service to Existing method
+        this.isTaxRegistrationFocused = false;
       }
+    }
   }
 
   // get the field of selected input and the method of service to ensure the right searching
-Existing(field: string,  method: Observable<any> ) {
-  if (field != null) {
-        method.subscribe(
-          data => data != null ? this.isFieldExist = true : this.isFieldExist = false
-        );
-        if (field === this.client.email || field === this.agency.email ) {
-          this.isTaxRegistrationFocused = false;
-          this.isUsernameFocused = false ;
-        } else if (field === this.client.username || field === this.agency.username ) {
-              this.isEmailFocused = false;
-              this.isTaxRegistrationFocused = false;
-              } else {
-          this.isUsernameFocused = false;
-          this.isEmailFocused = false;
-        }
+
+  Existing(field: string,  method: Observable<any> ) {
+    if (field != null) {
+      method.subscribe(
+        data => data != null ? this.isFieldExist = true : this.isFieldExist = false
+      );
+      if (field === this.client.email || field === this.agency.email ) {
+        this.isTaxRegistrationFocused = false;
+        this.isUsernameFocused = false ;
+      } else if (field === this.client.username || field === this.agency.username ) {
+        this.isEmailFocused = false;
+        this.isTaxRegistrationFocused = false;
+      } else {
+        this.isUsernameFocused = false;
+        this.isEmailFocused = false;
       }
     }
+  }
 }
 
 export function MustMatch(controlName: string, matchingControlName: string) {

@@ -1,21 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SignComponent } from './sign.component';
-import {HttpParams} from '@angular/common/http';
+import { DisplayLocalsComponent } from './display-locals.component';
 
-describe('SignComponent', () => {
-  let component: SignComponent;
-  let fixture: ComponentFixture<SignComponent>;
+describe('DisplayLocalsComponent', () => {
+  let component: DisplayLocalsComponent;
+  let fixture: ComponentFixture<DisplayLocalsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SignComponent ]
+      declarations: [ DisplayLocalsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SignComponent);
+    fixture = TestBed.createComponent(DisplayLocalsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -24,6 +23,3 @@ describe('SignComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-
-

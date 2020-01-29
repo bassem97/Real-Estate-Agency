@@ -1,0 +1,20 @@
+td
+{
+  padding: 5px;
+  width: 25%;
+  height: 100%
+}
+.container{
+  padding: 15px;
+}
+
+.container table {
+  padding: 5px;
+  width: 100%;
+}
+
+option{
+  color: #0b0b0b;
+}
+
+

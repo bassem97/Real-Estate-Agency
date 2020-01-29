@@ -4,13 +4,14 @@
     <mat-tab-group [selectedIndex]="selected" mat-stretch-tabs class="example-stretched-tabs">
       <mat-tab label="Sign In">
         <mat-card-content>
-          <form [formGroup]="signInForm" (ngSubmit)="signInForm.valid" (submit)="login($event)" novalidate >
+          <form [formGroup]="signInForm" (ngSubmit)="signInForm.valid" (submit)="login()" novalidate >
             <mat-form-field>
               <input
                 matInput
                 placeholder="Email/Username"
                 required
                 id="emailUsername"
+                [(ngModel)]="emailUsername"
                 formControlName="emailUsername">
               <mat-error *ngIf="signInForm.get('emailUsername').hasError('minlength')">email/Username must be of length 4</mat-error>
               <mat-error *ngIf="signInForm.get('emailUsername').hasError('required')">Email/UserName is required</mat-error>

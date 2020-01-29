@@ -39,4 +39,12 @@ export class ClientService {
   findByEmail(email): Observable<any> {
      return this.http.get(this.baseUrl + 'clientByEmail/' + email);
   }
+
+  login(loginPayload) {
+    const headers = {
+      Authorization: 'Basic ' + btoa('devglan-client:devglan-secret'),
+      'Content-type': 'application/x-www-form-urlencoded'
+    };
+    return this.http.post(this.baseUrl + 'oauth/token', loginPayload, {headers});
+  }
 }

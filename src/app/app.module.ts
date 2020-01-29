@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './Components/navbar/navbar.component';
@@ -25,6 +24,8 @@ import { FooterComponent } from './Components/footer/footer.component';
 import {HttpClientModule} from '@angular/common/http';
 import {DialogComponent} from './Components/sign/dialog.component';
 import { NewsletterComponent } from './Components/newsletter/newsletter.component';
+import { DisplayLocalsComponent } from './Components/home/display-locals/display-locals.component';
+import {FilterPipe} from './Components/home/filterPipe';
 //
 
 @NgModule({
@@ -37,7 +38,10 @@ import { NewsletterComponent } from './Components/newsletter/newsletter.componen
     ContactComponent,
     FooterComponent,
     DialogComponent,
-    NewsletterComponent
+    NewsletterComponent,
+    DisplayLocalsComponent,
+    FilterPipe,
+
   ],
   imports: [
     MatSliderModule,
@@ -58,7 +62,8 @@ import { NewsletterComponent } from './Components/newsletter/newsletter.componen
     MatOptionModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    FormsModule,
   ],
   entryComponents: [DialogComponent],
   providers: [HttpClientModule],
