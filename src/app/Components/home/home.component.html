@@ -111,10 +111,19 @@
                 </div>
               </div>
             </div>
-            <div class="col-md align-self-end">
+<!--            <div class="col-md align-self-end">-->
+<!--              <div class="form-group">-->
+<!--                <div class="form-field">-->
+<!--                  <input type="submit" value="Search" (click)="search()"  class="form-control btn btn-primary">-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+            <div class="col-md align-items-end">
               <div class="form-group">
+                <label >Min Rooms </label>
                 <div class="form-field">
-                  <input type="submit" value="Search" (click)="search()"  class="form-control btn btn-primary">
+                  <div class="icon"><span class="icon-pencil"></span></div>
+                  <input type="text" class="form-control"  [(ngModel)]="local.roomsNumber" [ngModelOptions]="{ standalone: true }" placeholder="Min Rooms">
                 </div>
               </div>
             </div>
@@ -129,10 +138,10 @@
     <div class="container">
       <table  >
         <tr>
-          <td *ngFor="let local of this.locals | filter: local.address : local.type : local.transactionType : minPrice : maxPrice : minArea : maxArea ">
+          <td *ngFor="let local of this.locals | filter: local.address : local.type : local.transactionType : minPrice : maxPrice : minArea : maxArea : local.roomsNumber ">
             <div class="item">
               <div  class="properties">
-                <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-1.jpg);">
+                <a routerLink="/localDetails" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-1.jpg);">
                   <div class="icon d-flex justify-content-center align-items-center">
                     <span class="icon-search2"></span>
                   </div>
@@ -158,35 +167,93 @@
               </div>
             </div>
           </td>
-          <!--          <td>-->
-          <!--            <div class="item">-->
-          <!--              <div class="properties">-->
-          <!--                <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-3.jpg);">-->
-          <!--                  <div class="icon d-flex justify-content-center align-items-center">-->
-          <!--                    <span class="icon-search2"></span>-->
-          <!--                  </div>-->
-          <!--                </a>-->
-          <!--                <div class="text p-3">-->
-          <!--                  <span class="status rent">Rent</span>-->
-          <!--                  <div class="d-flex">-->
-          <!--                    <div class="one">-->
-          <!--                      <h3><a href="#">North Parchmore Street</a></h3>-->
-          <!--                      <p>Apartment</p>-->
-          <!--                    </div>-->
-          <!--                    <div class="two">-->
-          <!--                      <span class="price">$800 <small>/ month</small></span>-->
-          <!--                    </div>-->
-          <!--                  </div>-->
-          <!--                  <p>Far far away, behind the word mountains, far from the countries</p>-->
-          <!--                  <hr>-->
-          <!--                  <p class="bottom-area d-flex">-->
-          <!--                    <span><i class="flaticon-selection"></i> 250m²</span>-->
-          <!--                    <span class="ml-auto"><i class="flaticon-bed"></i> 4</span>-->
-          <!--                  </p>-->
-          <!--                </div>-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </td>-->
+<!--                    <td>-->
+<!--                      <div class="item">-->
+<!--                        <div class="properties">-->
+<!--                          <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-3.jpg);">-->
+<!--                            <div class="icon d-flex justify-content-center align-items-center">-->
+<!--                              <span class="icon-search2"></span>-->
+<!--                            </div>-->
+<!--                          </a>-->
+<!--                          <div class="text p-3">-->
+<!--                            <span class="status rent">Rent</span>-->
+<!--                            <div class="d-flex">-->
+<!--                              <div class="one">-->
+<!--                                <h3><a href="#">North Parchmore Street</a></h3>-->
+<!--                                <p>Apartment</p>-->
+<!--                              </div>-->
+<!--                              <div class="two">-->
+<!--                                <span class="price">$800 <small>/ month</small></span>-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                            <p>Far far away, behind the word mountains, far from the countries</p>-->
+<!--                            <hr>-->
+<!--                            <p class="bottom-area d-flex">-->
+<!--                              <span><i class="flaticon-selection"></i> 250m²</span>-->
+<!--                              <span class="ml-auto"><i class="flaticon-bed"></i> 4</span>-->
+<!--                            </p>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </td>-->
+<!--          <td>-->
+<!--            <div class="item">-->
+<!--              <div class="properties">-->
+<!--                <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-3.jpg);">-->
+<!--                  <div class="icon d-flex justify-content-center align-items-center">-->
+<!--                    <span class="icon-search2"></span>-->
+<!--                  </div>-->
+<!--                </a>-->
+<!--                <div class="text p-3">-->
+<!--                  <span class="status rent">Rent</span>-->
+<!--                  <div class="d-flex">-->
+<!--                    <div class="one">-->
+<!--                      <h3><a href="#">North Parchmore Street</a></h3>-->
+<!--                      <p>Apartment</p>-->
+<!--                    </div>-->
+<!--                    <div class="two">-->
+<!--                      <span class="price">$800 <small>/ month</small></span>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <p>Far far away, behind theord mountains, far from the countries</p>-->
+<!--                  <hr>-->
+<!--                  <p class="bottom-area d-flex">-->
+<!--                    <span><i class="flaticon-selection"></i> 250m²</span>-->
+<!--                    <span class="ml-auto"><i class="flaticon-bed"></i> 4</span>-->
+<!--                  </p>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            <div class="item">-->
+<!--              <div class="properties">-->
+<!--                <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-3.jpg);">-->
+<!--                  <div class="icon d-flex justify-content-center align-items-center">-->
+<!--                    <span class="icon-search2"></span>-->
+<!--                  </div>-->
+<!--                </a>-->
+<!--                <div class="text p-3">-->
+<!--                  <span class="status rent">Rent</span>-->
+<!--                  <div class="d-flex">-->
+<!--                    <div class="one">-->
+<!--                      <h3><a href="#">North Parchmore Street</a></h3>-->
+<!--                      <p>Apartment</p>-->
+<!--                    </div>-->
+<!--                    <div class="two" >-->
+<!--                      <span class="price" >$8000000 <small>/ month</small></span>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <p >Far far away, behind the word mounjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjtains, far from the countries</p>-->
+<!--                  <hr>-->
+<!--                  <p class="bottom-area d-flex">-->
+<!--                    <span><i class="flaticon-selection"></i> 250m²</span>-->
+<!--                    <span class="ml-auto"><i class="flaticon-bed"></i> 4</span>-->
+<!--                  </p>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </td>-->
         </tr>
       </table>
     </div>

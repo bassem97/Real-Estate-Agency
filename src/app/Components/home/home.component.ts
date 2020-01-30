@@ -13,20 +13,20 @@ import {observableToBeFn} from 'rxjs/internal/testing/TestScheduler';
 export class HomeComponent implements OnInit , OnChanges {
 
   constructor(private localService: LocalService) { }
-  private locals: Local[] = [];
+   locals: Local[] = [];
    local: Local = {
     address : '',
      area : null,
      description : '',
      price : null,
-     roomsNumber : null,
+     roomsNumber : 1,
      transactionType : '',
      type : ''
   };
-  minPrice = '';
-  maxPrice = '';
-  minArea = '';
-  maxArea = '';
+  minPrice = null;
+  maxPrice = null;
+  minArea = null;
+  maxArea = null;
 
 
   ngOnInit() {

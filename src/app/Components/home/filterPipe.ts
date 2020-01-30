@@ -22,8 +22,10 @@ export class FilterPipe implements PipeTransform {
   //     return false;
   //   });
   // }
-  transform(locals: Local[], address: string , type: string, status: string, minPrice: number, maxPrice: number, minArea: number, maxArea: number ): Local[] {
-    if (!locals || (!address && !type && !status && !minPrice && !maxPrice && !minArea && !maxArea) ) { return locals; }
+  transform(locals: Local[], address: string , type: string, status: string,
+            minPrice: number, maxPrice: number, minArea: number, maxArea: number,
+            roomsNumber: number ): Local[] {
+    if (!locals || (!address && !type && !status && !minPrice && !maxPrice && !minArea && !maxArea && roomsNumber === 1) ) { return locals; }
 
     if (!maxPrice) { maxPrice = 9999999999999999999999; }
     if (!maxArea) { maxArea = 9999999999999999999999; }
@@ -36,7 +38,8 @@ export class FilterPipe implements PipeTransform {
       .filter(local => local.price <= maxPrice)
       .filter(local => local.area >= minArea)
       .filter(local => local.area <= maxArea)
-      ;
+      .filter(local => local.roomsNumber >= roomsNumber)
+    ;
   }
 
 

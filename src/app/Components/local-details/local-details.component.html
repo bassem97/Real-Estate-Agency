@@ -1,0 +1,24 @@
+<table class="table table-striped table-bordered" style="margin-top: 150px; ">
+<thead class="thead-light">
+<tr>
+  <th>address </th>
+  <th>Transaction Type </th>
+  <th>type</th>
+  <th>description</th>
+  <th>Price</th>
+<!--  <th>Image</th>-->
+  <th>Rooms Number</th>
+  <th>area</th>
+</tr>
+</thead>
+<tr *ngFor="let local of locals  ">
+  <td>{{local.address}}</td>
+  <td>{{local.transactionType}}</td>
+  <td>{{local.type}}</td>
+  <td>{{local.description}}</td>
+  <td>{{local.price}}</td>
+<!--  <td><img src="{{product.image}}" width="150" height="100"/> </td>-->
+  <td>{{local.roomsNumber}}</td>
+  <td>{{local.area}}</td>
+</tr>
+</table>

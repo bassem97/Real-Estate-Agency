@@ -6,12 +6,13 @@ import { NavbarComponent } from './Components/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {
+  _MatMenuDirectivesModule,
   MatButtonModule,
   MatCardModule, MatCheckboxModule, MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatOptionModule, MatSelectModule,
-  MatSliderModule,
+  MatInputModule, MatMenuModule, MatOptionModule, MatSelectModule,
+  MatSliderModule, MatStepperModule, MatTableModule,
   MatTabsModule
 } from '@angular/material';
 import { HomeComponent } from './Components/home/home.component';
@@ -26,7 +27,9 @@ import {DialogComponent} from './Components/sign/dialog.component';
 import { NewsletterComponent } from './Components/newsletter/newsletter.component';
 import { DisplayLocalsComponent } from './Components/home/display-locals/display-locals.component';
 import {FilterPipe} from './Components/home/filterPipe';
-//
+import { LocalDetailsComponent } from './Components/local-details/local-details.component';
+import {AddLocalComponent} from './Components/add-local/add-local.component';
+
 
 @NgModule({
   declarations: [
@@ -41,6 +44,9 @@ import {FilterPipe} from './Components/home/filterPipe';
     NewsletterComponent,
     DisplayLocalsComponent,
     FilterPipe,
+    LocalDetailsComponent,
+    AddLocalComponent
+
 
   ],
   imports: [
@@ -64,6 +70,10 @@ import {FilterPipe} from './Components/home/filterPipe';
     ReactiveFormsModule,
     MatDialogModule,
     FormsModule,
+    MatTableModule,
+    _MatMenuDirectivesModule,
+    MatMenuModule,
+    MatStepperModule,
   ],
   entryComponents: [DialogComponent],
   providers: [HttpClientModule],
