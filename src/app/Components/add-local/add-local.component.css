@@ -1,0 +1,14 @@
+tr{
+  height : 80px;
+}
+table{
+  text-align: left;
+}
+
+mat-horizontal-stepper{
+  text-align: center;
+  overflow: hidden;
+  padding: 0;
+}
+
+

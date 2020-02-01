@@ -1,33 +1,137 @@
-<mat-horizontal-stepper linear #stepper style="width: 700px;alignment: center">
-  <mat-step [stepControl]="firstFormGroup">
+<mat-horizontal-stepper linear #stepper style="width: 800px;margin: 0 auto" >
+<!-- ************************************  1st stepper  ***************************************-->
+  <mat-step [stepControl]="firstFormGroup"  optional>
     <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Fill out your name</ng-template>
-      <mat-form-field>
-        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-      </mat-form-field>
+      <ng-template matStepLabel>Fill out your ad properties</ng-template>
+      <table align="center">
+        <tr>
+          <td>
+            Transaction Type :
+          </td>
+          <td>
+            <mat-button-toggle-group formControlName="TransactionType" [(ngModel)]="local.type" appearance="legacy" name="fontStyle" aria-label="Font Style">
+              <mat-button-toggle  value="Rent">For Rent</mat-button-toggle>
+              <mat-button-toggle value="Sale">For Sale</mat-button-toggle>
+            </mat-button-toggle-group>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Ad Type :
+          </td>
+          <td>
+            <mat-form-field>
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="Type" [(ngModel)]="local.type">
+                <mat-option value="House" > House </mat-option>
+                <mat-option value="Field" > Field </mat-option>
+                <mat-option value="Apartment" > Apartment  </mat-option>
+                <mat-option value="Office" > office  </mat-option>
+                <mat-option value="villa" > Villa  </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
       <div>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-raised-button color="primary" matStepperNext>Next</button>
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="secondFormGroup" [optional]="isOptional">
+  <!-- ************************************  2nd stepper  ***************************************-->
+  <mat-step [stepControl]="secondFormGroup" optional >
     <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Fill out your address</ng-template>
-      <mat-form-field>
-        <input matInput placeholder="Address" formControlName="secondCtrl" required>
-      </mat-form-field>
+      <ng-template matStepLabel>Fill out some numbers</ng-template>
+      <table align="center">
+        <tr>
+          <td>
+            Area  :
+          </td>
+          <td>
+            <mat-form-field >
+              <mat-label>Area</mat-label>
+              <input matInput type="number" placeholder="Area" [(ngModel)]="local.area" formControlName="Area"   >
+              <span matPrefix>m²&nbsp;</span>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Rooms Number :
+          </td>
+          <td>
+            <mat-form-field >
+              <mat-label>Rooms Number</mat-label>
+              <input matInput placeholder="Area" type="number" [(ngModel)]="local.roomsNumber" formControlName="RoomsNumber"  >
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+              Price :
+          </td>
+          <td>
+            <mat-form-field >
+              <mat-label>Price </mat-label>
+              <input matInput placeholder="Price" type="number" [(ngModel)]="local.price" formControlName="Price"  >
+              <span matPrefix>TND&nbsp;</span>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-raised-button color="primary" matStepperPrevious>Back</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button  mat-raised-button color="primary" matStepperNext>Next</button>
       </div>
     </form>
   </mat-step>
-  <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    You are now done.
+
+  <!-- ************************************  3rd stepper  ***************************************-->
+  <mat-step [stepControl]="thirdFormGroup">
+    <form [formGroup]="thirdFormGroup">
+    <ng-template matStepLabel>Describe you ad</ng-template>
+    <table align="center">
+      <tr>
+        <td>
+          Address :
+        </td>
+        <td>
+          <mat-form-field >
+            <mat-label>Adress</mat-label>
+            <input matInput type="text"  [(ngModel)]="local.address" formControlName="Address"    >
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Description :
+        </td>
+        <td>
+          <mat-form-field >
+            <mat-label>Description</mat-label>
+            <textarea matInput   [(ngModel)]="local.description" formControlName="Description"  ></textarea>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <label class="image-upload-container btn btn-bwm">
+            <span>Select Image</span>
+            <input #imageInput
+                   type="file"
+                   accept="image/*"
+                   [(ngModel)]="local.address"
+                   [ngModelOptions]="{standalone: true}"
+                   (change)="processFile(imageInput)">
+          </label>
+        </td>
+      </tr>
+    </table>
     <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
+      <button mat-raised-button color="primary" matStepperPrevious>Back</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button  mat-raised-button color="primary" matStepperNext>Next</button>
     </div>
+    </form>
   </mat-step>
 </mat-horizontal-stepper>

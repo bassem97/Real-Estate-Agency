@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {
   _MatMenuDirectivesModule,
-  MatButtonModule,
+  MatButtonModule, MatButtonToggleModule,
   MatCardModule, MatCheckboxModule, MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
@@ -29,6 +29,7 @@ import { DisplayLocalsComponent } from './Components/home/display-locals/display
 import {FilterPipe} from './Components/home/filterPipe';
 import { LocalDetailsComponent } from './Components/local-details/local-details.component';
 import {AddLocalComponent} from './Components/add-local/add-local.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -74,6 +75,8 @@ import {AddLocalComponent} from './Components/add-local/add-local.component';
     _MatMenuDirectivesModule,
     MatMenuModule,
     MatStepperModule,
+    MatButtonToggleModule,
+    DragDropModule,
   ],
   entryComponents: [DialogComponent],
   providers: [HttpClientModule],
