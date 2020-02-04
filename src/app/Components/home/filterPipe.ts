@@ -1,9 +1,8 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Injectable, Pipe, PipeTransform} from '@angular/core';
 import {Local} from '../../Models/Local';
 
-@Pipe({
-  name: 'filter'
-})
+@Pipe({name: 'filter'})
+@Injectable()
 export class FilterPipe implements PipeTransform {
   // transform(items: any[], term: any): any {
   //   if (term === undefined) { return items; }
@@ -25,6 +24,7 @@ export class FilterPipe implements PipeTransform {
   transform(locals: Local[], address: string , type: string, status: string,
             minPrice: number, maxPrice: number, minArea: number, maxArea: number,
             roomsNumber: number ): Local[] {
+    // tslint:disable-next-line:max-line-length
     if (!locals || (!address && !type && !status && !minPrice && !maxPrice && !minArea && !maxArea && roomsNumber === 1) ) { return locals; }
 
     if (!maxPrice) { maxPrice = 9999999999999999999999; }

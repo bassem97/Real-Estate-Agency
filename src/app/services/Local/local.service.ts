@@ -8,7 +8,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class LocalService {
 
-  private baseUrl = 'http://localhost:81/Local/';
+  private baseUrl = 'http://localhost:81/local/';
   constructor(private http: HttpClient) { }
 
 

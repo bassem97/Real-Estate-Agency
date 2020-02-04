@@ -63,7 +63,7 @@
                 <div class="form-field">
                   <div class="select-wrap">
                     <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                    <select    [(ngModel)]="local.transactionType"  [ngModelOptions]="{ standalone: true }" class="form-control">
+                    <select (change)="test()"    [(ngModel)]="local.transactionType"  [ngModelOptions]="{ standalone: true }" class="form-control">
                       <option value="">Status</option>
                       <option value="Rent">Rent</option>
                       <option value="Sale">Sale</option>
@@ -136,37 +136,37 @@
 
   <section>
     <div class="container">
-      <table  >
-        <tr>
-          <td *ngFor="let local of this.locals | filter: local.address : local.type : local.transactionType : minPrice : maxPrice : minArea : maxArea : local.roomsNumber ">
-            <div class="item">
-              <div  class="properties">
-                <a routerLink="/localDetails" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-1.jpg);">
-                  <div class="icon d-flex justify-content-center align-items-center">
-                    <span class="icon-search2"></span>
-                  </div>
-                </a>
-                <div class="text p-3">
-                  <span [ngClass]="local.transactionType=='Sale'? 'status sale' : 'status rent' ">{{local.transactionType}}</span>
-                  <div class="d-flex">
-                    <div class="one">
-                      <h3><a href="#">{{local.address}}</a></h3>
-                      <p>{{local.type}}</p>
+          <table  >
+            <tr>
+              <td *ngFor="let local of this.locals | filter: local.address : local.type : local.transactionType : minPrice : maxPrice : minArea : maxArea : local.roomsNumber ">
+                <div class="item">
+                  <div  class="properties">
+                    <a routerLink="/localDetails" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-1.jpg);">
+                      <div class="icon d-flex justify-content-center align-items-center">
+                        <span class="icon-search2"></span>
+                      </div>
+                    </a>
+                    <div class="text p-3">
+                      <span [ngClass]="local.transactionType=='Sale'? 'status sale' : 'status rent' ">{{local.transactionType}}</span>
+                      <div class="d-flex">
+                        <div class="one">
+                          <h3><a href="#">{{local.address}}</a></h3>
+                          <p>{{local.type}}</p>
+                        </div>
+                        <div class="two">
+                          <span class="price">{{local.price}}TND <small *ngIf="local.transactionType!='Sale'">/ month</small></span>
+                        </div>
+                      </div>
+                      <p>{{local.description}}</p>
+                      <hr>
+                      <p class="bottom-area d-flex">
+                        <span><i class="flaticon-selection"></i> {{local.area}}m²</span>
+                        <span class="ml-auto"><i class="flaticon-bed"></i> {{local.roomsNumber}}</span>
+                      </p>
                     </div>
-                    <div class="two">
-                      <span class="price">{{local.price}}TND <small *ngIf="local.transactionType!='Sale'">/ month</small></span>
-                    </div>
                   </div>
-                  <p>{{local.description}}</p>
-                  <hr>
-                  <p class="bottom-area d-flex">
-                    <span><i class="flaticon-selection"></i> {{local.area}}m²</span>
-                    <span class="ml-auto"><i class="flaticon-bed"></i> {{local.roomsNumber}}</span>
-                  </p>
                 </div>
-              </div>
-            </div>
-          </td>
+              </td>
 <!--                    <td>-->
 <!--                      <div class="item">-->
 <!--                        <div class="properties">-->

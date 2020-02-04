@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   template: `
-      <h3 mat-dialog-title>Sign in success ! </h3>
+      <h3 mat-dialog-title>{{this.data}} </h3>
       <div style="text-align: center;">
           <p>
               <button mat-button [mat-dialog-close]="" cdkFocusInitial>Ok</button>
@@ -14,5 +14,6 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 export class DialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
   }
+
 
 }

@@ -1,6 +1,6 @@
 <mat-horizontal-stepper linear #stepper style="width: 800px;margin: 0 auto" >
 <!-- ************************************  1st stepper  ***************************************-->
-  <mat-step [stepControl]="firstFormGroup"  optional>
+  <mat-step [stepControl]="firstFormGroup"  >
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Fill out your ad properties</ng-template>
       <table align="center">
@@ -9,7 +9,7 @@
             Transaction Type :
           </td>
           <td>
-            <mat-button-toggle-group formControlName="TransactionType" [(ngModel)]="local.type" appearance="legacy" name="fontStyle" aria-label="Font Style">
+            <mat-button-toggle-group formControlName="TransactionType" [(ngModel)]="this.local.transactionType" appearance="legacy" name="fontStyle" aria-label="Font Style">
               <mat-button-toggle  value="Rent">For Rent</mat-button-toggle>
               <mat-button-toggle value="Sale">For Sale</mat-button-toggle>
             </mat-button-toggle-group>
@@ -22,7 +22,7 @@
           <td>
             <mat-form-field>
               <mat-label>Type</mat-label>
-              <mat-select formControlName="Type" [(ngModel)]="local.type">
+              <mat-select formControlName="Type" [(ngModel)]="this.local.type">
                 <mat-option value="House" > House </mat-option>
                 <mat-option value="Field" > Field </mat-option>
                 <mat-option value="Apartment" > Apartment  </mat-option>
@@ -39,7 +39,7 @@
     </form>
   </mat-step>
   <!-- ************************************  2nd stepper  ***************************************-->
-  <mat-step [stepControl]="secondFormGroup" optional >
+  <mat-step [stepControl]="secondFormGroup"  >
     <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Fill out some numbers</ng-template>
       <table align="center">
@@ -50,19 +50,19 @@
           <td>
             <mat-form-field >
               <mat-label>Area</mat-label>
-              <input matInput type="number" placeholder="Area" [(ngModel)]="local.area" formControlName="Area"   >
+              <input matInput type="number" placeholder="Area" [(ngModel)]="this.local.area" formControlName="Area"   >
               <span matPrefix>m²&nbsp;</span>
             </mat-form-field>
           </td>
         </tr>
-        <tr>
+        <tr  *ngIf="this.local.type != 'Field'">
           <td>
             Rooms Number :
           </td>
           <td>
-            <mat-form-field >
+            <mat-form-field>
               <mat-label>Rooms Number</mat-label>
-              <input matInput placeholder="Area" type="number" [(ngModel)]="local.roomsNumber" formControlName="RoomsNumber"  >
+              <input matInput placeholder="Area" type="number" [(ngModel)]="this.local.roomsNumber" formControlName="RoomsNumber"  >
             </mat-form-field>
           </td>
         </tr>
@@ -73,7 +73,7 @@
           <td>
             <mat-form-field >
               <mat-label>Price </mat-label>
-              <input matInput placeholder="Price" type="number" [(ngModel)]="local.price" formControlName="Price"  >
+              <input matInput placeholder="Price" type="number" [(ngModel)]="this.local.price" formControlName="Price"  >
               <span matPrefix>TND&nbsp;</span>
             </mat-form-field>
           </td>
@@ -99,7 +99,7 @@
         <td>
           <mat-form-field >
             <mat-label>Adress</mat-label>
-            <input matInput type="text"  [(ngModel)]="local.address" formControlName="Address"    >
+            <input matInput type="text"  [(ngModel)]="this.local.address" formControlName="Address"    >
           </mat-form-field>
         </td>
       </tr>
@@ -110,7 +110,7 @@
         <td>
           <mat-form-field >
             <mat-label>Description</mat-label>
-            <textarea matInput   [(ngModel)]="local.description" formControlName="Description"  ></textarea>
+            <textarea matInput   [(ngModel)]="this.local.description" formControlName="Description"  ></textarea>
           </mat-form-field>
         </td>
       </tr>
@@ -121,8 +121,7 @@
             <input #imageInput
                    type="file"
                    accept="image/*"
-                   [(ngModel)]="local.address"
-                   [ngModelOptions]="{standalone: true}"
+
                    (change)="processFile(imageInput)">
           </label>
         </td>
@@ -130,8 +129,17 @@
     </table>
     <div>
       <button mat-raised-button color="primary" matStepperPrevious>Back</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button  mat-raised-button color="primary" matStepperNext>Next</button>
+      <button  mat-raised-button color="primary" matStepperNext (click)="addLocal()">Next</button>
     </div>
+    </form>
+  </mat-step>
+  <mat-step >
+    <form [formGroup]="thirdFormGroup">
+      <ng-template matStepLabel>Done</ng-template>
+
+      <div>
+       <h1>Thank you for submitting your ad !<br> we will verify you ad as soon as possible</h1>
+      </div>
     </form>
   </mat-step>
 </mat-horizontal-stepper>

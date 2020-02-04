@@ -4,6 +4,8 @@ import {Observable} from 'rxjs';
 import {Local} from '../../Models/Local';
 import {HttpClient} from '@angular/common/http';
 import {observableToBeFn} from 'rxjs/internal/testing/TestScheduler';
+import {FilterPipe} from './filterPipe';
+import {UserService} from '../../services/User/user.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +14,9 @@ import {observableToBeFn} from 'rxjs/internal/testing/TestScheduler';
 })
 export class HomeComponent implements OnInit , OnChanges {
 
-  constructor(private localService: LocalService) { }
+
+  constructor(private localService: LocalService, private userService: UserService) {
+  }
    locals: Local[] = [];
    local: Local = {
     address : '',
@@ -35,6 +39,7 @@ export class HomeComponent implements OnInit , OnChanges {
         this.locals.push(local);
       }
     }  );
+
   }
 
   searchLocation(location) {
@@ -68,5 +73,9 @@ export class HomeComponent implements OnInit , OnChanges {
       console.log(propName + ' changed from ' + from + ' to ' + to);
     }
 
+  }
+
+  test() {
+    console.log();
   }
 }

@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router,} from '@angular/router';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ActivatedRoute, Router, } from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Agency} from '../../Models/Agency';
 import {Client} from '../../Models/Client';
 import {ClientService} from '../../services/Client/client.service';
 import {AgencyService} from '../../services/Agency/agency.service';
-import {MatDialog, MatDialogRef} from '@angular/material'
+import {MatDialog, MatDialogRef} from '@angular/material';
 import {DialogComponent} from './dialog.component';
 import {Observable} from 'rxjs';
 import {AuthenticationService} from '../../services/Authentication/authentication.service';
 import {HttpParams} from '@angular/common/http';
+import {User} from '../../Models/User';
+import {Login} from '../../Models/Login';
+import {UserService} from '../../services/User/user.service';
+import {NavbarComponent} from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-sign',
@@ -25,6 +29,9 @@ export class SignComponent implements OnInit {
               private formBuilder: FormBuilder,
               public dialog: MatDialog,
               private router: Router,
+              private authService: AuthenticationService,
+              private userService: UserService,
+              private navBar: NavbarComponent
   ) {
   }
   dialogComponent: MatDialogRef<DialogComponent>;
@@ -38,10 +45,8 @@ export class SignComponent implements OnInit {
   private isEmailFocused = false;
   private isUsernameFocused = false ;
   private isTaxRegistrationFocused = false;
-  private auth: AuthenticationService;
-  private emailUsername: string;
-  private password: string;
-  public loginData = {username: this.emailUsername, password: this.password};
+  login: Login;
+  @Output() closeAll = new EventEmitter<boolean>();
 
 
 
@@ -69,9 +74,29 @@ export class SignComponent implements OnInit {
       emailUsername: ['', [Validators.required, Validators.minLength(4)]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+
+    this.login = new Login() ;
+
   }
 
-  login() {
+  signIn() {
+    this.authService.authenticate(this.login).subscribe(res => {
+      console.log(res);
+      // @ts-ignore
+      localStorage.token = res.token;
+      this.userService.findUserWithToken().subscribe(result => {
+        // @ts-ignore
+        localStorage.username = result.username;
+      });
+      this.router.navigateByUrl('/') ;
+    }, error => {
+      this.dialogComponent = this.dialog.open(DialogComponent, {
+        width: '350px',
+        data : 'Username/password Invalid/does not exist ! '
+      });
+      this.signInForm.controls.emailUsername.setErrors({incorrect : true}) ;
+      this.signInForm.controls.password.setErrors({incorrect : true}) ;
+    }) ;
   }
 
 
@@ -81,7 +106,7 @@ export class SignComponent implements OnInit {
       this.clientService.add(this.client).subscribe();
       this.dialogComponent = this.dialog.open(DialogComponent, {
         width: '350px',
-        data : {firstName: this.client.firstName, lastName: this.client.lastName}
+        data : 'Sign In Success !'
       });
     } else {
       this.agencyService.add(this.agency).subscribe();

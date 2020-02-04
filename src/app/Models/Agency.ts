@@ -1,8 +1,6 @@
-export class Agency{
-  idAgency: number;
+import {User} from './User';
+
+export class Agency extends User {
   agencyName: string;
   taxRegistration: string;
-  username: string;
-  email: string;
-  password: string;
 }

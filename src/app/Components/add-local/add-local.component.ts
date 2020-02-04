@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {Http} from '@angular/http';
 import {HttpClient} from '@angular/common/http';
 import {ImageService} from '../../services/image.service';
+import {LocalService} from '../../services/Local/local.service';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -20,13 +21,14 @@ export class AddLocalComponent implements OnInit {
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
-  local = new Local();
+  local: Local;
   thirdFormGroup: FormGroup;
   selectedFile: ImageSnippet;
 
-  constructor(private formBuilder: FormBuilder, private imageService: ImageService) {}
+  constructor(private formBuilder: FormBuilder, private imageService: ImageService, private localService: LocalService ) {}
 
   ngOnInit() {
+    this.local = new Local();
     this.firstFormGroup = this.formBuilder.group({
       TransactionType: [this.local.transactionType, Validators.required],
       Type: [this.local.type, Validators.required],
@@ -42,6 +44,7 @@ export class AddLocalComponent implements OnInit {
       Address: [this.local.address, [ Validators.required]],
       Description: [this.local.description, [ Validators.required]],
     });
+
   }
   processFile(imageInput: any) {
     const file: File = imageInput.files[0];
@@ -61,6 +64,10 @@ export class AddLocalComponent implements OnInit {
     });
 
     reader.readAsDataURL(file);
+  }
+
+  addLocal() {
+    this.localService.add(this.local).subscribe();
   }
 }
 

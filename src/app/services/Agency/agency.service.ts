@@ -8,7 +8,7 @@ import {Observable} from 'rxjs';
 })
 export class AgencyService {
 
-  private baseUrl = 'http://localhost:81/Agency/';
+  private baseUrl = 'http://localhost:81/agency/';
   // tslint:disable-next-line:max-line-length
   // private header = new HttpHeaders({'authorization': 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbCIsInJvbGVzIjpbIlVTRVIiXSwiaXNzIjoiL2xvZ2luIiwiZXhwIjoxNTc1NDg4Nzc5fQ.k8ZKAtZUaGXefvsTgqyku_pANq_sH5rbd2NV0xQxLFM'});
   constructor(private http: HttpClient) { }

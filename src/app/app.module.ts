@@ -30,6 +30,7 @@ import {FilterPipe} from './Components/home/filterPipe';
 import { LocalDetailsComponent } from './Components/local-details/local-details.component';
 import {AddLocalComponent} from './Components/add-local/add-local.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { UserProfileComponent } from './Components/user-profile/user-profile.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     DisplayLocalsComponent,
     FilterPipe,
     LocalDetailsComponent,
-    AddLocalComponent
+    AddLocalComponent,
+    UserProfileComponent
 
 
   ],
@@ -79,7 +81,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     DragDropModule,
   ],
   entryComponents: [DialogComponent],
-  providers: [HttpClientModule],
+  providers: [HttpClientModule, NavbarComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
