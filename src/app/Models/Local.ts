@@ -1,4 +1,7 @@
+import {User} from './User';
+
 export class Local{
+  idLocal: number;
   address: string;
   area: number;
   description: string;
@@ -6,4 +9,5 @@ export class Local{
   roomsNumber: number;
   transactionType: string;
   type: string;
+  user: User;
 }

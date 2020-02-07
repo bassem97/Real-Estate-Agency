@@ -141,7 +141,7 @@
               <td *ngFor="let local of this.locals | filter: local.address : local.type : local.transactionType : minPrice : maxPrice : minArea : maxArea : local.roomsNumber ">
                 <div class="item">
                   <div  class="properties">
-                    <a routerLink="/localDetails" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-1.jpg);">
+                    <a [routerLink]="['/localDetails', local.idLocal ]" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-1.jpg);">
                       <div class="icon d-flex justify-content-center align-items-center">
                         <span class="icon-search2"></span>
                       </div>
@@ -161,8 +161,17 @@
                       <hr>
                       <p class="bottom-area d-flex">
                         <span><i class="flaticon-selection"></i> {{local.area}}m²</span>
+
+                          <button [matTooltip]="!this.hasWished ? 'add to wishlist' : 'remove from wishlist'"
+                                  class="ml-auto  d-flex justify-content-center align-items-center"
+                                  mat-icon-button style=""
+                                  (click)="isWished(local.idLocal);openSnackBar()"  >
+                            <i class="material-icons">{{this.hasWished ? 'favorite' : 'favorite_border' }}</i>
+                        </button>
+
                         <span class="ml-auto"><i class="flaticon-bed"></i> {{local.roomsNumber}}</span>
                       </p>
+
                     </div>
                   </div>
                 </div>

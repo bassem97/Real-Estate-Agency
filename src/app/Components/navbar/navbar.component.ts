@@ -22,7 +22,6 @@ export class NavbarComponent implements OnInit {
     this.userService.findUserWithToken().subscribe(res => { // @ts-ignore
       // @ts-ignore
       this.username = res.username ; });
-
   }
 
   changerSelection(num) {

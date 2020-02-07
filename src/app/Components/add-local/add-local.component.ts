@@ -7,6 +7,7 @@ import {Http} from '@angular/http';
 import {HttpClient} from '@angular/common/http';
 import {ImageService} from '../../services/image.service';
 import {LocalService} from '../../services/Local/local.service';
+import {UserService} from '../../services/User/user.service';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -25,7 +26,7 @@ export class AddLocalComponent implements OnInit {
   thirdFormGroup: FormGroup;
   selectedFile: ImageSnippet;
 
-  constructor(private formBuilder: FormBuilder, private imageService: ImageService, private localService: LocalService ) {}
+  constructor(private formBuilder: FormBuilder, private imageService: ImageService, private localService: LocalService, private userService: UserService) {}
 
   ngOnInit() {
     this.local = new Local();
@@ -46,28 +47,19 @@ export class AddLocalComponent implements OnInit {
     });
 
   }
-  processFile(imageInput: any) {
-    const file: File = imageInput.files[0];
-    const reader = new FileReader();
-    console.log(this.local.address);
-    reader.addEventListener('load', (event: any) => {
 
-      this.selectedFile = new ImageSnippet(event.target.result, file);
-
-      this.imageService.uploadImage(this.selectedFile.file).subscribe(
-        (res) => {
-
-        },
-        (err) => {
-
-        });
-    });
-
-    reader.readAsDataURL(file);
-  }
 
   addLocal() {
-    this.localService.add(this.local).subscribe();
+   this.userService.findUserWithToken().subscribe(user => {
+     // @ts-ignore
+     this.local.user = user;
+     this.localService.add(this.local).subscribe();
+   });
+
+  }
+
+  onSelectFile(event) {
+    const file =  event.target.files;
   }
 }
 

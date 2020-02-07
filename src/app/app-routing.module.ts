@@ -6,13 +6,14 @@ import {ContactComponent} from './Components/contact/contact.component';
 import {LocalDetailsComponent} from './Components/local-details/local-details.component';
 import {AddLocalComponent} from './Components/add-local/add-local.component';
 import {UserProfileComponent} from './Components/user-profile/user-profile.component';
+import {AuthenticationGuard} from './guard/authentication.guard';
 
 
 const routes: Routes = [
   {path: '' , component: HomeComponent},
-  {path: 'sign/:id' , component: SignComponent},
+  {path: 'sign/:id' , component: SignComponent, canActivate: [AuthenticationGuard]},
   {path: 'contact' , component: ContactComponent},
-  {path: 'localDetails' , component: LocalDetailsComponent},
+  {path: 'localDetails/:id' , component: LocalDetailsComponent},
   {path: 'localAdd' , component: AddLocalComponent},
   {path: 'userProfile' , component: UserProfileComponent},
 ];

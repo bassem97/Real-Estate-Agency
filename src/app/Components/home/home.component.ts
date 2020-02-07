@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {observableToBeFn} from 'rxjs/internal/testing/TestScheduler';
 import {FilterPipe} from './filterPipe';
 import {UserService} from '../../services/User/user.service';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-home',
@@ -15,22 +16,26 @@ import {UserService} from '../../services/User/user.service';
 export class HomeComponent implements OnInit , OnChanges {
 
 
-  constructor(private localService: LocalService, private userService: UserService) {
+  constructor(private localService: LocalService, private userService: UserService, private snackBar: MatSnackBar) {
   }
    locals: Local[] = [];
    local: Local = {
-    address : '',
+     user: undefined,
+     idLocal: null,
+     address : '',
      area : null,
      description : '',
      price : null,
      roomsNumber : 1,
      transactionType : '',
      type : ''
-  };
+
+   };
   minPrice = null;
   maxPrice = null;
   minArea = null;
   maxArea = null;
+  hasWished;
 
 
   ngOnInit() {
@@ -39,7 +44,6 @@ export class HomeComponent implements OnInit , OnChanges {
         this.locals.push(local);
       }
     }  );
-
   }
 
   searchLocation(location) {
@@ -77,5 +81,32 @@ export class HomeComponent implements OnInit , OnChanges {
 
   test() {
     console.log();
+  }
+
+  isWished(idLocal) {
+    if (this.hasWished) {
+      this.userService.findUserWithToken().subscribe(user => {
+        // @ts-ignore
+        this.userService.removeLocalFromWishlist(user.idUser, idLocal) ;
+        console.log('local removed !');
+      });
+    } else {
+      this.userService.findUserWithToken().subscribe(user => {
+        // @ts-ignore
+        this.userService.addLocalToWishlist(user.idUser, idLocal) ;
+        console.log('local added !');
+      });
+    }
+
+    this.hasWished = !this.hasWished;
+
+  }
+
+  openSnackBar() {
+    const message = this.hasWished ? 'local added to wishlist' : 'local removed from wishlist';
+    const action = 'open wishlist';
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 }

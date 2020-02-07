@@ -51,26 +51,19 @@ export class UserService {
       headers: this.headers
     });
   }
-  addUserProject(userProject) {
-    this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
-
-    /*  return this.http.post(this.baseurl + 'userprojects', {
-        user: {
-         id : idU
-    }, manager : isManager,
-        project: {id: idP}} , {headers: this.headers});*/
-    return this.http.post(this.baseurl + 'userprojects', userProject , {headers: this.headers});
-  }
-
-  viewNotification() {
-    this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
-
-    return this.http.get(this.baseurl + 'notifs/viewed' , {headers: this.headers});
-  }
-
   changePassword(user) {
     this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
     return this.http.post(this.baseurl + 'password', user, {headers: this.headers});
+  }
+  addLocalToWishlist(idUser, idLocal) {
+    console.log('dkhal lila addlocal');
+    this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
+    this.http.post(this.baseurl + 'addLocalToWishlist/' + idUser + '/' + idLocal , {headers: this.headers});
+  }
+  removeLocalFromWishlist(idUser, idLocal) {
+    console.log('dkhal lila removeslocal');
+    this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
+    this.http.delete(this.baseurl + 'removeLocalFromWishlist/' + idUser + '/' + idLocal , {headers: this.headers});
   }
 
 }

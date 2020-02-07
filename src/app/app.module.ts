@@ -12,9 +12,10 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule, MatMenuModule, MatOptionModule, MatSelectModule,
-  MatSliderModule, MatStepperModule, MatTableModule,
-  MatTabsModule
+  MatSliderModule, MatSnackBarModule, MatStepperModule, MatTableModule,
+  MatTabsModule, MatTooltipModule
 } from '@angular/material';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import { HomeComponent } from './Components/home/home.component';
 import { SignComponent } from './Components/sign/sign.component';
 import { AboutComponent } from './Components/about/about.component';
@@ -31,6 +32,9 @@ import { LocalDetailsComponent } from './Components/local-details/local-details.
 import {AddLocalComponent} from './Components/add-local/add-local.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { UserProfileComponent } from './Components/user-profile/user-profile.component';
+import {MatCarouselModule} from '@ngmodule/material-carousel';
+import {UiCarouselModule} from 'ngx-ui-carousel';
+import {AuthenticationGuard} from './guard/authentication.guard';
 
 
 @NgModule({
@@ -48,7 +52,8 @@ import { UserProfileComponent } from './Components/user-profile/user-profile.com
     FilterPipe,
     LocalDetailsComponent,
     AddLocalComponent,
-    UserProfileComponent
+    UserProfileComponent,
+
 
 
   ],
@@ -79,9 +84,13 @@ import { UserProfileComponent } from './Components/user-profile/user-profile.com
     MatStepperModule,
     MatButtonToggleModule,
     DragDropModule,
+    MatCarouselModule,
+    UiCarouselModule,
+    MatTooltipModule,
+    MatSnackBarModule
   ],
   entryComponents: [DialogComponent],
-  providers: [HttpClientModule, NavbarComponent],
+  providers: [HttpClientModule, NavbarComponent, HomeComponent, AuthenticationGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

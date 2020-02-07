@@ -121,8 +121,9 @@
             <input #imageInput
                    type="file"
                    accept="image/*"
-
-                   (change)="processFile(imageInput)">
+                   (change)="onSelectFile($event)"
+                    style="height: 100%"
+                    multiple>
           </label>
         </td>
       </tr>

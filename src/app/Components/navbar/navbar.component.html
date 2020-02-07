@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
   <div class="container">
     <a class="navbar-brand" routerLink="/">Royal<span>estate</span></a>
-    <button mat-raised-button color="primary" style="height: 40px"  routerLink="/localAdd"><mat-icon matSuffix>add</mat-icon>  Place your ad</button>
+    <button [hidden]="!isLoggedIn" mat-raised-button color="primary" style="height: 40px"  routerLink="/localAdd"><mat-icon matSuffix>add</mat-icon>  Place your ad</button>
 
 
     <div class="collapse navbar-collapse" id="ftco-nav">

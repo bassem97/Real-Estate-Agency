@@ -52,6 +52,7 @@ export class SignComponent implements OnInit {
 
 
   ngOnInit() {
+
     // choosing sign in or sign up depanding on button clicked in navbar
     this.route.paramMap.subscribe(params => {
       this.selected = Number(params.get('id'));
@@ -88,7 +89,7 @@ export class SignComponent implements OnInit {
         // @ts-ignore
         localStorage.username = result.username;
       });
-      this.router.navigateByUrl('/') ;
+      this.router.navigateByUrl('/').then(value =>   window.location.reload()) ;
     }, error => {
       this.dialogComponent = this.dialog.open(DialogComponent, {
         width: '350px',
