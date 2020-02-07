@@ -87,13 +87,17 @@ export class HomeComponent implements OnInit , OnChanges {
     if (this.hasWished) {
       this.userService.findUserWithToken().subscribe(user => {
         // @ts-ignore
-        this.userService.removeLocalFromWishlist(user.idUser, idLocal) ;
+        this.userService.removeLocalFromWishlist(user.idUser, idLocal).subscribe() ;
+        // @ts-ignore
+        console.log(user.idUser + '+' + idLocal);
         console.log('local removed !');
       });
     } else {
       this.userService.findUserWithToken().subscribe(user => {
         // @ts-ignore
-        this.userService.addLocalToWishlist(user.idUser, idLocal) ;
+        this.userService.addLocalToWishlist(user.idUser, idLocal).subscribe() ;
+        // @ts-ignore
+        console.log(user.idUser + '+' + idLocal);
         console.log('local added !');
       });
     }

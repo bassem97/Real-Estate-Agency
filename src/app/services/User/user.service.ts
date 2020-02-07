@@ -57,13 +57,13 @@ export class UserService {
   }
   addLocalToWishlist(idUser, idLocal) {
     console.log('dkhal lila addlocal');
-    this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
-    this.http.post(this.baseurl + 'addLocalToWishlist/' + idUser + '/' + idLocal , {headers: this.headers});
+    // this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
+    return this.http.post(this.baseurl + 'addLocalToWishlist/' + idUser + '/' + idLocal , {headers: this.headers});
   }
   removeLocalFromWishlist(idUser, idLocal) {
     console.log('dkhal lila removeslocal');
-    this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
-    this.http.delete(this.baseurl + 'removeLocalFromWishlist/' + idUser + '/' + idLocal , {headers: this.headers});
+    // this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
+    return this.http.delete(this.baseurl + 'removeLocalFromWishlist/' + idUser + '/' + idLocal , {headers: this.headers});
   }
 
 }
