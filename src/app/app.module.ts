@@ -35,6 +35,7 @@ import { UserProfileComponent } from './Components/user-profile/user-profile.com
 import {MatCarouselModule} from '@ngmodule/material-carousel';
 import {UiCarouselModule} from 'ngx-ui-carousel';
 import {AuthenticationGuard} from './guard/authentication.guard';
+import {AgentsComponent} from './Components/agents/agents.component';
 
 
 @NgModule({
@@ -53,7 +54,7 @@ import {AuthenticationGuard} from './guard/authentication.guard';
     LocalDetailsComponent,
     AddLocalComponent,
     UserProfileComponent,
-
+    AgentsComponent
 
 
   ],

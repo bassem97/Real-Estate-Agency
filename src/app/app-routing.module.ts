@@ -7,6 +7,8 @@ import {LocalDetailsComponent} from './Components/local-details/local-details.co
 import {AddLocalComponent} from './Components/add-local/add-local.component';
 import {UserProfileComponent} from './Components/user-profile/user-profile.component';
 import {AuthenticationGuard} from './guard/authentication.guard';
+import {AgentsComponent} from './Components/agents/agents.component';
+import {AboutComponent} from './Components/about/about.component';
 
 
 const routes: Routes = [
@@ -16,6 +18,8 @@ const routes: Routes = [
   {path: 'localDetails/:id' , component: LocalDetailsComponent},
   {path: 'localAdd' , component: AddLocalComponent},
   {path: 'userProfile' , component: UserProfileComponent},
+  {path: 'agents' , component: AgentsComponent},
+  {path: 'about' , component: AboutComponent},
 ];
 
 @NgModule({

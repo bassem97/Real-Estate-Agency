@@ -5,5 +5,11 @@ export class User {
   password: string;
   image: string ;
   phoneNumber: number;
+  firstName: string;
+  lastName: string;
+  birthdate: string;
+  agencyName: string;
+  taxRegistration: string;
+  dtype: string;
 
 }

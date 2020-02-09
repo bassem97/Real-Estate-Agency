@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit , OnChanges {
   maxPrice = null;
   minArea = null;
   maxArea = null;
-  hasWished;
+  hasWished = false;
 
 
   ngOnInit() {
@@ -87,22 +87,29 @@ export class HomeComponent implements OnInit , OnChanges {
     if (this.hasWished) {
       this.userService.findUserWithToken().subscribe(user => {
         // @ts-ignore
-        this.userService.removeLocalFromWishlist(user.idUser, idLocal).subscribe() ;
+        this.userService.removeLocalFromWishlist(user.idUser, idLocal).subscribe(d => {
+          console.log('tfassakh');
+        }) ;
         // @ts-ignore
         console.log(user.idUser + '+' + idLocal);
         console.log('local removed !');
+        console.log(this.hasWished);
       });
     } else {
       this.userService.findUserWithToken().subscribe(user => {
         // @ts-ignore
-        this.userService.addLocalToWishlist(user.idUser, idLocal).subscribe() ;
+        this.userService.addLocalToWishlist(user.idUser, idLocal).subscribe(d => {
+          console.log('tsabb');
+        }) ;
         // @ts-ignore
         console.log(user.idUser + '+' + idLocal);
         console.log('local added !');
+        console.log(this.hasWished);
       });
     }
-
     this.hasWished = !this.hasWished;
+
+
 
   }
 

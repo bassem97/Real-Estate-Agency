@@ -7,10 +7,9 @@
 
     <div class="collapse navbar-collapse" id="ftco-nav">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item active"><a routerLink="/" class="nav-link">Home</a></li>
-        <li class="nav-item"><a href="property.html" class="nav-link">Property</a></li>
-        <li class="nav-item"><a href="agents.html" class="nav-link">Agents</a></li>
-        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+        <li class="nav-item "><a routerLink="/" class="nav-link">Home</a></li>
+        <li class="nav-item"><a [routerLink]="['agents']" class="nav-link">Agents</a></li>
+        <li class="nav-item"><a  [routerLink]="['about']" class="nav-link">About</a></li>
         <li class="nav-item"><a routerLink="contact"  class="nav-link">Contact</a></li>
         <li class="nav-item cta"><a  [routerLink]="['/sign',0]" class="nav-link ml-lg-2" [hidden]="isLoggedIn"><span class="icon-user"></span> Sign-In</a></li>
         <li class="nav-item cta cta-colored"><a [routerLink]="['/sign',1]" class="nav-link" [hidden]="isLoggedIn"><span class="icon-pencil"></span> Sign-Up</a></li>
