@@ -36,6 +36,7 @@ import {MatCarouselModule} from '@ngmodule/material-carousel';
 import {UiCarouselModule} from 'ngx-ui-carousel';
 import {AuthenticationGuard} from './guard/authentication.guard';
 import {AgentsComponent} from './Components/agents/agents.component';
+import {CarouselDirective} from './Components/home/carousel.directive';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import {AgentsComponent} from './Components/agents/agents.component';
     LocalDetailsComponent,
     AddLocalComponent,
     UserProfileComponent,
-    AgentsComponent
+    AgentsComponent,
+    CarouselDirective
 
 
   ],

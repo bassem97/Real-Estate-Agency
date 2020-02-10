@@ -2,13 +2,11 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {LocalService} from '../../services/Local/local.service';
 import {Observable} from 'rxjs';
 import {Local} from '../../Models/Local';
-import {HttpClient} from '@angular/common/http';
-import {observableToBeFn} from 'rxjs/internal/testing/TestScheduler';
-import {FilterPipe} from './filterPipe';
 import {UserService} from '../../services/User/user.service';
 import {MatSnackBar} from '@angular/material';
-import {User} from '../../Models/User';
 import {Router} from '@angular/router';
+import {User} from '../../Models/User';
+
 
 @Component({
   selector: 'app-home',
@@ -18,8 +16,13 @@ import {Router} from '@angular/router';
 export class HomeComponent implements OnInit  {
 
 
-  constructor(private localService: LocalService, private userService: UserService, private snackBar: MatSnackBar, private  router: Router) {
+  constructor(private localService: LocalService,
+              private userService: UserService,
+              private snackBar: MatSnackBar,
+              private  router: Router,
+             ) {
   }
+  user: User = null;
    locals: Local[] = [];
    local: Local = {
      user: undefined,
@@ -40,22 +43,27 @@ export class HomeComponent implements OnInit  {
   minArea = null;
   maxArea = null;
   hasWished = false;
+  message;
 
 
   ngOnInit() {
-    this.localService.list().subscribe(data => {
-      for (const local of data) {
-        this.userService.findUserWithToken().subscribe(user => {
-          // @ts-ignore
-          if (!(local.userWished.findIndex(i => i.idUser === user.idUser ) === -1)) {
-            local.hasWished = true ;
+    this.userService.findUserWithToken().subscribe(res => {
+      // @ts-ignore
+      this.user = res ;
+      this.localService.list().subscribe(data => {
+        for (const local of data) {
+          if (this.user.locals.findIndex(i => i.idLocal === local.idLocal ) === -1) {
+            this.userService.findUserWithToken().subscribe(user => {
+              // @ts-ignore
+              if (!(local.userWished.findIndex(i => i.idUser === user.idUser ) === -1)) {
+                local.hasWished = true ;
+              }
+              this.locals.push(local);
+            });
           }
-        });
-        this.locals.push(local);
-      }
-    }  );
-
-
+        }
+      });
+    });
   }
   isWished(local: Local) {
     if (local.hasWished === true) {
@@ -92,3 +100,5 @@ export class HomeComponent implements OnInit  {
     snackBar.onAction().subscribe(() => this.router.navigate(['userProfile', 'active']) );
   }
 }
+
+

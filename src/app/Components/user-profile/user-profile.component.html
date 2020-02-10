@@ -12,6 +12,52 @@
       <div class="tab-content py-4">
 
         <div [ngClass]="(this.selected === 'active')?'tab-pane active':'tab-pane'" class="tab-pane " id="wishList">
+          <div id="dataInfo">
+          <h1 align="center">My Wish List</h1>
+          <div id="myCarousel" class="carousel" data-ride="carousel" >
+            <div class="carousel-inner row w-100 mx-auto" >
+              <div class="carousel-item col-md-4 active" *ngFor="let local of this.user.wishList">
+                <div class="item">
+                  <div  class="properties">
+                    <a [routerLink]="['/localDetails', local.idLocal ]" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-1.jpg);">
+                      <div class="icon d-flex justify-content-center align-items-center">
+                        <span class="icon-search2"></span>
+                      </div>
+                    </a>
+                    <div class="text p-3">
+                      <span [ngClass]="local.transactionType=='Sale'? 'status sale' : 'status rent' ">{{local.transactionType}}</span>
+                      <div class="d-flex">
+                        <div class="one">
+                          <h3><a href="#">{{local.address}}</a></h3>
+                          <p>{{local.type}}</p>
+                        </div>
+                        <div class="two">
+                          <span class="price">{{local.price}}TND <small *ngIf="local.transactionType!='Sale'">/ month</small></span>
+                        </div>
+                      </div>
+                      <p>{{local.description}}</p>
+                      <hr>
+                      <p class="bottom-area d-flex">
+                        <span><i class="flaticon-selection"></i> {{local.area}}m²</span>
+
+                        <button matTooltip="removed from wishlist'"
+                                class="ml-auto  d-flex justify-content-center align-items-center"
+                                mat-icon-button style=""
+                                (click)="removeFromWishlist(local)"  >
+                          <i class="material-icons">favorite</i>
+                        </button>
+
+                        <span class="ml-auto"><i class="flaticon-bed"></i> {{local.roomsNumber}}</span>
+                      </p>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
 
         </div>
 

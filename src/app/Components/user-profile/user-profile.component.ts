@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../services/User/user.service';
 import {User} from '../../Models/User';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Local} from '../../Models/Local';
 
 @Component({
   selector: 'app-user-profile',
@@ -30,5 +31,15 @@ export class UserProfileComponent implements OnInit {
   onSelectFile(event) {
     const file = event.target.files[0];
     this.userFile = file ;
+  }
+
+  removeFromWishlist(local: Local) {
+    this.user.wishList.forEach( (item, index) => {
+      if (item === local ) {
+        this.user.wishList.splice(index, 1);
+        // @ts-ignore
+        this.userService.removeLocalFromWishlist(this.user.idUser, local.idLocal).subscribe();
+      }
+    });
   }
 }

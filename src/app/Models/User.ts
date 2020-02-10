@@ -1,3 +1,5 @@
+import {Local} from './Local';
+
 export class User {
   id: number;
   username: string;
@@ -11,5 +13,7 @@ export class User {
   agencyName: string;
   taxRegistration: string;
   dtype: string;
+  locals: Local[];
+  wishList: Local[];
 
 }
