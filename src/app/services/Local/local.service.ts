@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Local} from '../../Models/local';
 import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +9,7 @@ import {HttpClient} from '@angular/common/http';
 export class LocalService {
 
   private baseUrl = 'http://localhost:81/local/';
+  private headers: HttpHeaders;
   constructor(private http: HttpClient) { }
 
 
@@ -35,4 +36,10 @@ export class LocalService {
   findByAdress(adress): Observable<any> {
     return this.http.get(this.baseUrl + 'findByAdress/' + adress);
   }
+
+  isWishedByUser(idUser, idLocal): Observable<any> {
+    this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
+    return this.http.get(this.baseUrl + 'isWishedByUser/' + idUser + '/' + idLocal);
+  }
+
 }

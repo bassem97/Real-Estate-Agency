@@ -7,16 +7,18 @@ import {observableToBeFn} from 'rxjs/internal/testing/TestScheduler';
 import {FilterPipe} from './filterPipe';
 import {UserService} from '../../services/User/user.service';
 import {MatSnackBar} from '@angular/material';
+import {User} from '../../Models/User';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit , OnChanges {
+export class HomeComponent implements OnInit  {
 
 
-  constructor(private localService: LocalService, private userService: UserService, private snackBar: MatSnackBar) {
+  constructor(private localService: LocalService, private userService: UserService, private snackBar: MatSnackBar, private  router: Router) {
   }
    locals: Local[] = [];
    local: Local = {
@@ -28,7 +30,9 @@ export class HomeComponent implements OnInit , OnChanges {
      price : null,
      roomsNumber : 1,
      transactionType : '',
-     type : ''
+     type : '',
+     userWished: [],
+     hasWished: true
 
    };
   minPrice = null;
@@ -41,83 +45,65 @@ export class HomeComponent implements OnInit , OnChanges {
   ngOnInit() {
     this.localService.list().subscribe(data => {
       for (const local of data) {
+        this.userService.findUserWithToken().subscribe(user => {
+          // @ts-ignore
+          if (!(local.userWished.findIndex(i => i.idUser === user.idUser ) === -1)) {
+            local.hasWished = true ;
+          }
+        });
         this.locals.push(local);
       }
     }  );
-  }
 
-  searchLocation(location) {
-    const reg = new RegExp( location , 'i');
-    this.locals = this.locals.filter(local => reg.test(local.address));
-  }
-
-  searchType(type) {
-    const reg = new RegExp( type , 'i');
-    this.locals = this.locals.filter(local => reg.test(local.type) );
-  }
-
-  searchStatus(status) {
-    const reg = new RegExp( status , 'i');
-    this.locals = this.locals.filter(local => reg.test(local.transactionType));
-  }
-
-  search() {
 
   }
-
-
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-    for (const propName of Object.keys(changes)) {
-      const change = changes[propName];
-      const from = JSON.stringify(change.previousValue);
-      const to = JSON.stringify(change.currentValue);
-
-      console.log(propName + ' changed from ' + from + ' to ' + to);
-    }
-
-  }
-
-  test() {
-    console.log();
-  }
-
-  isWished(idLocal) {
-    if (this.hasWished) {
+  isWished(local: Local) {
+    if (local.hasWished === true) {
       this.userService.findUserWithToken().subscribe(user => {
         // @ts-ignore
-        this.userService.removeLocalFromWishlist(user.idUser, idLocal).subscribe(d => {
+        this.userService.removeLocalFromWishlist(user.idUser, local.idLocal).subscribe(d => {
           console.log('tfassakh');
         }) ;
         // @ts-ignore
-        console.log(user.idUser + '+' + idLocal);
+        console.log(user.idUser + '+' + local.idLocal);
         console.log('local removed !');
-        console.log(this.hasWished);
+        local.hasWished = !local.hasWished;
       });
     } else {
       this.userService.findUserWithToken().subscribe(user => {
         // @ts-ignore
-        this.userService.addLocalToWishlist(user.idUser, idLocal).subscribe(d => {
+        this.userService.addLocalToWishlist(user.idUser, local.idLocal).subscribe(d => {
           console.log('tsabb');
         }) ;
         // @ts-ignore
-        console.log(user.idUser + '+' + idLocal);
+        console.log(user.idUser + '+' + local.idLocal);
         console.log('local added !');
-        console.log(this.hasWished);
+        local.hasWished = !local.hasWished;
       });
     }
-    this.hasWished = !this.hasWished;
-
-
-
   }
 
-  openSnackBar() {
-    const message = this.hasWished ? 'local added to wishlist' : 'local removed from wishlist';
+  openSnackBar(hasWished: boolean) {
+    const message = hasWished ? 'local added to wishlist' : 'local removed from wishlist';
     const action = 'open wishlist';
-    this.snackBar.open(message, action, {
+    const snackBar = this.snackBar.open(message, action, {
       duration: 2000,
     });
+    snackBar.onAction().subscribe(() => this.router.navigate(['userProfile']) );
+  }
+
+  isWishedByThisUser(local: Local): boolean {
+  //   let userr: User = null;
+  //   this.userService.findUserWithToken().subscribe( user => {
+  //     // @ts-ignore
+  //     // this.localService.isWishedByUser(user.idUser, idLocal).subscribe(res => {
+  //     //  return console.log(res !== []) ;
+  //     // });
+  //       userr = user ;
+  //      });
+    return  true ;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
   }
 }

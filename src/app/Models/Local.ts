@@ -1,6 +1,6 @@
 import {User} from './User';
 
-export class Local{
+export class Local {
   idLocal: number;
   address: string;
   area: number;
@@ -10,4 +10,6 @@ export class Local{
   transactionType: string;
   type: string;
   user: User;
+  userWished: User[];
+  hasWished: boolean;
 }

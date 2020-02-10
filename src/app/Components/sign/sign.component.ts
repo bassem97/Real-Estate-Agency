@@ -62,8 +62,8 @@ export class SignComponent implements OnInit {
       firstName: [this.client.firstName, [Validators.required]],
       lastName: [this.client.lastName, [Validators.required]],
       userName: [this.client.username, [Validators.required,  Validators.minLength(4)]],
-      taxRegistration: ['', [Validators.required]],
-      agencyName: ['', [Validators.required]],
+      // taxRegistration: ['', [Validators.required]],
+      // agencyName: ['', [Validators.required]],
       email: [this.client.email, [Validators.required, Validators.email]],
       password: [this.client.password, [Validators.required, Validators.minLength(6)]],
       rePassword: ['', Validators.required]

@@ -63,7 +63,7 @@
                 <div class="form-field">
                   <div class="select-wrap">
                     <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                    <select (change)="test()"    [(ngModel)]="local.transactionType"  [ngModelOptions]="{ standalone: true }" class="form-control">
+                    <select     [(ngModel)]="local.transactionType"  [ngModelOptions]="{ standalone: true }" class="form-control">
                       <option value="">Status</option>
                       <option value="Rent">Rent</option>
                       <option value="Sale">Sale</option>
@@ -162,11 +162,11 @@
                       <p class="bottom-area d-flex">
                         <span><i class="flaticon-selection"></i> {{local.area}}m²</span>
 
-                          <button [matTooltip]="!this.hasWished ? 'add to wishlist' : 'remove from wishlist'"
+                          <button [matTooltip]="!local.hasWished? 'add to wishlist' : 'remove from wishlist'"
                                   class="ml-auto  d-flex justify-content-center align-items-center"
                                   mat-icon-button style=""
-                                  (click)="isWished(local.idLocal);openSnackBar()"  >
-                            <i class="material-icons">{{this.hasWished ? 'favorite' : 'favorite_border' }}</i>
+                                  (click)="isWished(local);openSnackBar(local.hasWished)"  >
+                            <i class="material-icons">{{local.hasWished ? 'favorite' : 'favorite_border' }}</i>
                         </button>
 
                         <span class="ml-auto"><i class="flaticon-bed"></i> {{local.roomsNumber}}</span>

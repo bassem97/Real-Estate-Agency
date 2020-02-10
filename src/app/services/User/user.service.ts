@@ -66,4 +66,5 @@ export class UserService {
     return this.http.post(this.baseurl + 'removeLocalFromWishlist/' + idUser + '/' + idLocal , {headers: this.headers});
   }
 
+
 }

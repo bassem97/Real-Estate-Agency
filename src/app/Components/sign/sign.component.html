@@ -230,8 +230,10 @@
               color="primary"
               type="submit"
               (click)="register()"
-              class="login-button">
+              class="login-button"
+              [disabled]="signUpForm.invalid">
               Sign Up
+
             </button>
           </form>
         </mat-card-content>
