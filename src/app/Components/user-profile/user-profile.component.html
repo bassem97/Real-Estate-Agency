@@ -3,20 +3,19 @@
     <div class="col-lg-8 order-lg-2">
       <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a href="" data-target="#edit" data-toggle="tab" class="nav-link active">Edit</a>
+          <a href="" data-target="#edit" data-toggle="tab"  [ngClass]="(this.selected === 'active')?'nav-link':'nav-link active'">Edit</a>
         </li>
         <li class="nav-item">
-          <a href="" data-target="#wishList" data-toggle="tab" class="nav-link">Wish List</a>
+          <a href="" data-target="#wishList" data-toggle="tab" [ngClass]="(this.selected === 'active')?'nav-link active':'nav-link'" >Wish List</a>
         </li>
       </ul>
       <div class="tab-content py-4">
 
-        <div class="tab-pane" id="wishList">
-
+        <div [ngClass]="(this.selected === 'active')?'tab-pane active':'tab-pane'" class="tab-pane " id="wishList">
 
         </div>
 
-        <div class="tab-pane active" id="edit">
+        <div [ngClass]="(this.selected === 'active')?'tab-pane':'tab-pane active'" id="edit">
           <form role="form">
             <div class="form-group row"  *ngIf="user.dtype === 'Client'">
               <label class="col-lg-3 col-form-label form-control-label">First name</label>

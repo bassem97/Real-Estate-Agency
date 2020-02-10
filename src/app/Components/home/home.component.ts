@@ -89,21 +89,6 @@ export class HomeComponent implements OnInit  {
     const snackBar = this.snackBar.open(message, action, {
       duration: 2000,
     });
-    snackBar.onAction().subscribe(() => this.router.navigate(['userProfile']) );
-  }
-
-  isWishedByThisUser(local: Local): boolean {
-  //   let userr: User = null;
-  //   this.userService.findUserWithToken().subscribe( user => {
-  //     // @ts-ignore
-  //     // this.localService.isWishedByUser(user.idUser, idLocal).subscribe(res => {
-  //     //  return console.log(res !== []) ;
-  //     // });
-  //       userr = user ;
-  //      });
-    return  true ;
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
+    snackBar.onAction().subscribe(() => this.router.navigate(['userProfile', 'active']) );
   }
 }

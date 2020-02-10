@@ -17,7 +17,7 @@ const routes: Routes = [
   {path: 'contact' , component: ContactComponent},
   {path: 'localDetails/:id' , component: LocalDetailsComponent},
   {path: 'localAdd' , component: AddLocalComponent},
-  {path: 'userProfile' , component: UserProfileComponent},
+  {path: 'userProfile/:active' , component: UserProfileComponent},
   {path: 'agents' , component: AgentsComponent},
   {path: 'about' , component: AboutComponent},
 ];

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../services/User/user.service';
 import {User} from '../../Models/User';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -9,10 +10,16 @@ import {User} from '../../Models/User';
 })
 export class UserProfileComponent implements OnInit {
   userFile = File;
-  constructor(private userService: UserService) { }
+  selected: string;
+  constructor(private userService: UserService, private route: ActivatedRoute) { }
   user: User = new User();
   ngOnInit() {
-      this.userService.findUserWithToken().subscribe(user => {
+    this.route.paramMap.subscribe(params => {
+      this.selected = String(params.get('active'));
+    });
+    console.log(this.selected);
+
+    this.userService.findUserWithToken().subscribe(user => {
         // @ts-ignore
         this.user = user;
         console.log(this.user);
