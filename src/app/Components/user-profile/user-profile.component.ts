@@ -39,18 +39,11 @@ export function MustMatch(controlName: string, matchingControlName: string) {
 })
 export class UserProfileComponent implements OnInit {
   formGroup: FormGroup;
+  passwordFormGroup: FormGroup;
   emails: string[] = [];
   post: any = '';
   userFile = File;
   selected: number;
-  number: any = 55135774;
-
-  separateDialCode = true;
-  SearchCountryField = SearchCountryField;
-  TooltipLabel = TooltipLabel;
-  CountryISO = CountryISO;
-  preferredCountries: CountryISO[] = [CountryISO.UnitedStates, CountryISO.UnitedKingdom];
-
   constructor(private userService: UserService,
               private route: ActivatedRoute,
               private formBuilder: FormBuilder,
@@ -114,13 +107,8 @@ export class UserProfileComponent implements OnInit {
     const emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.formGroup = this.formBuilder.group({
       email: [this.user.email, [Validators.required, Validators.pattern(emailregex)], this.checkInUseEmail.bind(this)],
-      username: [null, [Validators.required,  Validators.minLength(4)], this.checkInUseUsername.bind(this)],
+      username: [null, [Validators.required, Validators.minLength(4)], this.checkInUseUsername.bind(this)],
       phonenumber: [null, [Validators.required], this.checkInUsePhoneNumber.bind(this)],
-      oldpassword: [null, [Validators.required]],
-      newpassword: [null, [Validators.required, this.checkPassword]],
-      repassword: [null, Validators.required],
-    }, {
-      validator: MustMatch('newpassword', 'repassword')
     });
     this.userService.findUserWithToken().subscribe(user => {
       // @ts-ignore
@@ -134,6 +122,13 @@ export class UserProfileComponent implements OnInit {
           new FormControl(null, [Validators.required,  Validators.minLength(4)], this.checkInUseTaxRegistration.bind(this)));
       }
 
+    });
+    this.passwordFormGroup = this.formBuilder.group({
+      oldpassword: [null, [Validators.required]],
+      newpassword: [null, [Validators.required, this.checkPassword]],
+      repassword: [null, Validators.required],
+    }, {
+      validator: MustMatch('newpassword', 'repassword')
     });
   }
 
@@ -326,17 +321,27 @@ export class UserProfileComponent implements OnInit {
     return this.formGroup.get('phonenumber') as FormControl;
   }
   get oldpassword() {
-    return this.formGroup.get('oldpassword') as FormControl;
+    return this.passwordFormGroup.get('oldpassword') as FormControl;
   }
   get newpassword() {
-    return this.formGroup.get('newpassword') as FormControl;
+    return this.passwordFormGroup.get('newpassword') as FormControl;
   }
   get repassword() {
-    return this.formGroup.get('repassword') as FormControl;
+    return this.passwordFormGroup.get('repassword') as FormControl;
   }
   get description() {
     return this.formGroup.get('description') as FormControl;
   }
 
 
+  ChangePassword(value: any) {
+
+      this.userService.changePassword(this.changePassword, this.user).subscribe(res => {
+        console.log(res);
+        if( res === true) {
+          this.oldpassword.markAsDirty(); 
+        }
+      });
+
+  }
 }

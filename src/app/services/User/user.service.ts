@@ -51,9 +51,9 @@ export class UserService {
       headers: this.headers
     });
   }
-  changePassword(user) {
+  changePassword(changePassword, user) {
     this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
-    return this.http.post(this.baseurl + 'password', user, {headers: this.headers});
+    return this.http.post(this.baseurl + 'password/' + user.username, changePassword, {headers: this.headers});
   }
   addLocalToWishlist(idUser, idLocal) {
     console.log('dkhal lila addlocal');
