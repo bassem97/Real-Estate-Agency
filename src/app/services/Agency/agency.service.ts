@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Agency} from '../../Models/Agency';
 import {Observable} from 'rxjs';
 
@@ -9,6 +9,7 @@ import {Observable} from 'rxjs';
 export class AgencyService {
 
   private baseUrl = 'http://localhost:81/agency/';
+  private headers: HttpHeaders;
   // tslint:disable-next-line:max-line-length
   // private header = new HttpHeaders({'authorization': 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbCIsInJvbGVzIjpbIlVTRVIiXSwiaXNzIjoiL2xvZ2luIiwiZXhwIjoxNTc1NDg4Nzc5fQ.k8ZKAtZUaGXefvsTgqyku_pANq_sH5rbd2NV0xQxLFM'});
   constructor(private http: HttpClient) { }
@@ -26,7 +27,8 @@ export class AgencyService {
   }
 
   modify(idAgency: number, agency: Agency): Observable<any> {
-    return this.http.put( this.baseUrl + 'update/' + idAgency, agency);
+    this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
+    return this.http.put( this.baseUrl + 'update/' + idAgency, agency, {headers: this.headers});
   }
 
   findById(id): Observable<any> {

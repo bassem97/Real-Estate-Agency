@@ -208,8 +208,16 @@
                                           <button [matTooltip]="!local.hasWished? 'add to wishlist' : 'remove from wishlist'"
                                                   class="ml-auto  d-flex justify-content-center align-items-center"
                                                   mat-icon-button style=""
-                                                  (click)="isWished(local);openSnackBar(local.hasWished)"  >
+                                                  (click)="isWished(local);openSnackBar(local.hasWished)"
+                                                  *ngIf="verifLocal(local) === 1">
                                             <i class="material-icons">{{local.hasWished ? 'favorite' : 'favorite_border' }}</i>
+                                          </button>
+                                        <button matTooltip="your property"
+                                                class="ml-auto  d-flex justify-content-center align-items-center"
+                                                mat-icon-button style=""
+                                                [routerLink]="['/userProfile', 1]"
+                                                *ngIf="verifLocal(local) === 2">
+                                          <i class="material-icons">account_circle</i>
                                         </button>
 
                                         <span class="ml-auto"><i class="flaticon-bed"></i> {{local.roomsNumber}}</span>

@@ -1,142 +1,256 @@
 <div class="container">
-  <div class="row my-2">
-    <div class="col-lg-8 order-lg-2">
-      <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a href="" data-target="#edit" data-toggle="tab"  [ngClass]="(this.selected === 'active')?'nav-link':'nav-link active'">Edit</a>
-        </li>
-        <li class="nav-item">
-          <a href="" data-target="#wishList" data-toggle="tab" [ngClass]="(this.selected === 'active')?'nav-link active':'nav-link'" >Wish List</a>
-        </li>
-      </ul>
-      <div class="tab-content py-4">
 
-        <div [ngClass]="(this.selected === 'active')?'tab-pane active':'tab-pane'" class="tab-pane " id="wishList">
-          <div id="dataInfo">
-          <h1 align="center">My Wish List</h1>
-          <div id="myCarousel" class="carousel" data-ride="carousel" >
-            <div class="carousel-inner row w-100 mx-auto" >
-              <div class="carousel-item col-md-4 active" *ngFor="let local of this.user.wishList">
-                <div class="item">
-                  <div  class="properties">
-                    <a [routerLink]="['/localDetails', local.idLocal ]" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-1.jpg);">
-                      <div class="icon d-flex justify-content-center align-items-center">
-                        <span class="icon-search2"></span>
-                      </div>
-                    </a>
-                    <div class="text p-3">
-                      <span [ngClass]="local.transactionType=='Sale'? 'status sale' : 'status rent' ">{{local.transactionType}}</span>
-                      <div class="d-flex">
-                        <div class="one">
-                          <h3><a href="#">{{local.address}}</a></h3>
-                          <p>{{local.type}}</p>
+        <mat-tab-group [selectedIndex]="selected" mat-stretch-tabs class="example-stretched-tabs">
+          <mat-tab label="My information">
+              <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+            <table >
+              <tr>
+                <td *ngIf="this.user.dtype === 'Client' ">
+                  <mat-form-field class="form-element">
+                    <input matInput
+                           placeholder="firstname"
+                           formControlName="firstname"
+                           [(ngModel)]='user.firstName'
+                           required>
+                    <mat-error *ngIf="!firstname.valid && firstname.touched">
+                      {{ getErrorFirstname() }}
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+                <td *ngIf="this.user.dtype === 'Client' ">
+                  <mat-form-field class="form-element">
+                    <input matInput
+                           placeholder="lastname"
+                           formControlName="lastname"
+                           [(ngModel)]='user.lastName'
+                           required>
+                    <mat-error *ngIf="!lastname.valid && lastname.touched">
+                      {{ getErrorLastname() }}
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+                <td *ngIf="this.user.dtype === 'Agency' ">
+                  <mat-form-field class="form-element">
+                    <input matInput
+                           placeholder="Agency Name"
+                           formControlName="agencyname"
+                           [(ngModel)]='user.agencyName'
+                           required>
+                    <mat-error *ngIf="!agencyname.valid && agencyname.touched">
+                      {{ getErrorAgencyName() }}
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+                <td *ngIf="this.user.dtype === 'Agency' ">
+                  <mat-form-field class="form-element">
+                    <input matInput
+                           placeholder="Tax Registration"
+                           formControlName="taxregistration"
+                           [(ngModel)]='user.taxRegistration'
+                           required>
+                    <mat-error *ngIf="!taxregistration.valid && taxregistration.touched">
+                      {{ getErrorTaxRegistration() }}
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <mat-form-field class="form-element">
+                    <input matInput
+                           placeholder="username"
+                           formControlName="username"
+                           [(ngModel)]='user.username'
+                           required>
+                    <mat-error *ngIf="!username.valid && username.touched">
+                      {{ getErrorUsername() }}
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field class="form-element" >
+                    <ngx-mat-intl-tel-input
+                                             required
+                                             [preferredCountries]="['tn']"
+                                             [enablePlaceholder]="true"
+                                             [enableSearch]="true"
+                                             placeholder="Phone Number"
+                                             #phone
+                                             [(ngModel)]='user.phoneNumber'
+                                             [ngModelOptions]="{standalone: true}"
+                                             ></ngx-mat-intl-tel-input>
+                    <mat-error *ngIf="!phonenumber.valid && phonenumber.touched">
+                      {{ getErrorPhonenumber() }}
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+              </tr>
+              <tr>
+                <td >
+                  <mat-form-field class="form-element">
+                    <input matInput
+                           placeholder="Email address"
+                           formControlName="email"
+                           [(ngModel)]='user.email'
+                           required>
+                    <mat-error *ngIf="!email.valid && email.touched">
+                      {{ getErrorEmail() }}
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+                <td *ngIf="this.user.dtype === 'Client' ">
+                  <mat-form-field class="form-element" >
+                    <mat-label>Birth date</mat-label>
+                    <input
+                      matInput
+                      [max]="maxDate"
+                      [min]="minDate"
+                      required
+                      [matDatepicker]="picker"
+                      placeholder="JJ/MM/YYYY"
+                      formControlName="birthdate"
+                    >
+                    <mat-error *ngIf="!birthdate.valid && birthdate.touched">
+                      Birth Date is required !
+                    </mat-error>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <mat-form-field class="form-element">
+                    <mat-pass-toggle-visibility #toggle  matSuffix></mat-pass-toggle-visibility>
+                    <input [type]="toggle.type"
+                           matInput placeholder="Old Password"
+                           formControlName="oldpassword"
+                           [(ngModel)]='changePassword.oldPassword'
+                           required>
+                    <mat-error *ngIf="!oldpassword.valid && oldpassword.touched">
+                      {{ getErrorOldPassword() }}
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field class="form-element">
+                    <mat-pass-toggle-visibility #toggle1  matSuffix></mat-pass-toggle-visibility>
+                    <input [type]="toggle1.type"
+                           matInput placeholder="New Password"
+                           formControlName="newpassword"
+                           [(ngModel)]='changePassword.newPassword'
+                           required>
+                    <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
+                    <mat-error *ngIf="!newpassword.valid && newpassword.touched">
+                      {{ getErrorNewPassword() }}
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field class="form-element">
+                    <mat-pass-toggle-visibility #toggle2  matSuffix></mat-pass-toggle-visibility>
+                    <input [type]="toggle2.type"
+                           matInput
+                           placeholder="Re-password"
+                           formControlName="repassword"
+                           required>
+                    <mat-error *ngIf="!repassword.valid && repassword.touched">
+                      {{ getErrorRepassword() }}
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+                <div class="form-element">
+                  <button mat-raised-button color="primary" type="submit" class="button" >Submit Form</button>
+<!--                  [disabled]="!formGroup.valid"-->
+                </div>
+              </form>
+          </mat-tab>
+          <mat-tab label="My Properties">
+                <h1 align="center">My property List</h1>
+                <div id="myCarousel" class="carousel" data-ride="carousel" >
+                  <div class="carousel-inner row w-100 mx-auto" >
+                    <div class="carousel-item col-md-4 active" *ngFor="let local of this.user.locals">
+                      <div class="item">
+                        <div  class="properties">
+                          <a [routerLink]="['/localDetails', local.idLocal ]" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-1.jpg);">
+                            <div class="icon d-flex justify-content-center align-items-center">
+                              <span class="icon-search2"></span>
+                            </div>
+                          </a>
+                          <div class="text p-3">
+                            <span [ngClass]="local.transactionType=='Sale'? 'status sale' : 'status rent' ">{{local.transactionType}}</span>
+                            <div class="d-flex">
+                              <div class="one">
+                                <h3><a href="#">{{local.address}}</a></h3>
+                                <p>{{local.type}}</p>
+                              </div>
+                              <div class="two">
+                                <span class="price">{{local.price}}TND <small *ngIf="local.transactionType!='Sale'">/ month</small></span>
+                              </div>
+                            </div>
+                            <p>{{local.description}}</p>
+                            <hr>
+                            <p class="bottom-area d-flex">
+                              <span><i class="flaticon-selection"></i> {{local.area}}m²</span>
+                              <span class="ml-auto"><i class="flaticon-bed"></i> {{local.roomsNumber}}</span>
+                            </p>
+
+                          </div>
                         </div>
-                        <div class="two">
-                          <span class="price">{{local.price}}TND <small *ngIf="local.transactionType!='Sale'">/ month</small></span>
-                        </div>
                       </div>
-                      <p>{{local.description}}</p>
-                      <hr>
-                      <p class="bottom-area d-flex">
-                        <span><i class="flaticon-selection"></i> {{local.area}}m²</span>
-
-                        <button matTooltip="removed from wishlist'"
-                                class="ml-auto  d-flex justify-content-center align-items-center"
-                                mat-icon-button style=""
-                                (click)="removeFromWishlist(local)"  >
-                          <i class="material-icons">favorite</i>
-                        </button>
-
-                        <span class="ml-auto"><i class="flaticon-bed"></i> {{local.roomsNumber}}</span>
-                      </p>
 
                     </div>
                   </div>
                 </div>
+          </mat-tab>
+          <mat-tab label="My Wishlist property">
+                <h1 align="center">My Wish List</h1>
+                <div id="myCarousel" class="carousel" data-ride="carousel" >
+                  <div class="carousel-inner row w-100 mx-auto" >
+                    <div class="carousel-item col-md-4 active" *ngFor="let local of this.user.wishList">
+                      <div class="item">
+                        <div  class="properties">
+                          <a [routerLink]="['/localDetails', local.idLocal ]" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-1.jpg);">
+                            <div class="icon d-flex justify-content-center align-items-center">
+                              <span class="icon-search2"></span>
+                            </div>
+                          </a>
+                          <div class="text p-3">
+                            <span [ngClass]="local.transactionType=='Sale'? 'status sale' : 'status rent' ">{{local.transactionType}}</span>
+                            <div class="d-flex">
+                              <div class="one">
+                                <h3><a href="#">{{local.address}}</a></h3>
+                                <p>{{local.type}}</p>
+                              </div>
+                              <div class="two">
+                                <span class="price">{{local.price}}TND <small *ngIf="local.transactionType!='Sale'">/ month</small></span>
+                              </div>
+                            </div>
+                            <p>{{local.description}}</p>
+                            <hr>
+                            <p class="bottom-area d-flex">
+                              <span><i class="flaticon-selection"></i> {{local.area}}m²</span>
 
-              </div>
-            </div>
-          </div>
-        </div>
+                              <button matTooltip="removed from wishlist'"
+                                      class="ml-auto  d-flex justify-content-center align-items-center"
+                                      mat-icon-button style=""
+                                      (click)="removeFromWishlist(local)"  >
+                                <i class="material-icons">favorite</i>
+                              </button>
 
-        </div>
-
-        <div [ngClass]="(this.selected === 'active')?'tab-pane':'tab-pane active'" id="edit">
-          <form role="form">
-            <div class="form-group row"  *ngIf="user.dtype === 'Client'">
-              <label class="col-lg-3 col-form-label form-control-label">First name</label>
-              <div class="col-lg-9">
-                <input class="form-control" type="text" [(ngModel)]="this.user.firstName" [ngModelOptions]="{standalone: true}">
-              </div>
-            </div>
-            <div class="form-group row"  *ngIf="user.dtype === 'Client'">
-              <label class="col-lg-3 col-form-label form-control-label">Last name</label>
-              <div class="col-lg-9">
-                <input class="form-control" type="text"  [(ngModel)]="this.user.lastName" [ngModelOptions]="{standalone: true}">
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-lg-3 col-form-label form-control-label">Username</label>
-              <div class="col-lg-9">
-                <input class="form-control" type="text" [(ngModel)]="this.user.username" [ngModelOptions]="{standalone: true}">
-              </div>
-            </div>
-            <div class="form-group row"  *ngIf="user.dtype === 'Agency'">
-              <label class="col-lg-3 col-form-label form-control-label">Agency Name</label>
-              <div class="col-lg-9">
-                <input class="form-control" type="text" [(ngModel)]="this.user.agencyName" [ngModelOptions]="{standalone: true}"  >
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-lg-3 col-form-label form-control-label">Email</label>
-              <div class="col-lg-9">
-                <input class="form-control" type="email"  [(ngModel)]="this.user.email" [ngModelOptions]="{standalone: true}">
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label class="col-lg-3 col-form-label form-control-label">Phone number</label>
-              <div class="col-lg-9">
-                <input class="form-control" type="url" [(ngModel)]="this.user.phoneNumber" [ngModelOptions]="{standalone: true}">
-              </div>
-            </div>
-            <div class="form-group row"  *ngIf="user.dtype === 'Agency'">
-              <label class="col-lg-3 col-form-label form-control-label">Tax Registration</label>
-              <div class="col-lg-9">
-                <input class="form-control" type="text" disabled [(ngModel)]="this.user.taxRegistration" [ngModelOptions]="{standalone: true}">
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label class="col-lg-3 col-form-label form-control-label">Old password</label>
-              <div class="col-lg-9">
-                <input class="form-control" type="password" >
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-lg-3 col-form-label form-control-label">New password</label>
-              <div class="col-lg-9">
-                <input class="form-control" type="password" >
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-lg-3 col-form-label form-control-label"></label>
-              <div class="col-lg-9">
-                <input type="reset" class="btn btn-secondary" value="Cancel">
-                <input type="button" class="btn btn-primary" value="Save Changes">
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4 order-lg-1 text-center">
-      <img src="//placehold.it/150" class="mx-auto img-fluid img-circle d-block" alt="avatar">
-      <h6 class="mt-2">Upload a different photo</h6>
-      <label class="custom-file">
-        <input type="file" accept="image/*" (change)="onSelectFile($event)" id="file" class="custom-file-input">
-        <span class="custom-file-control">Choose file</span>
-      </label>
-    </div>
-  </div>
+                              <span class="ml-auto"><i class="flaticon-bed"></i> {{local.roomsNumber}}</span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          </mat-tab>
+        </mat-tab-group>
 </div>
+
+
+

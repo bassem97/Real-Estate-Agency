@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Client} from '../../Models/Client';
 
@@ -9,6 +9,7 @@ import {Client} from '../../Models/Client';
 export class ClientService {
 
   private baseUrl = 'http://localhost:81/client/';
+  private headers: HttpHeaders;
   constructor(private http: HttpClient) { }
 
 
@@ -25,7 +26,10 @@ export class ClientService {
   }
 
   modify(idClient: number, client: Client): Observable<any> {
-    return this.http.put( this.baseUrl + 'update/' + idClient, client);
+    this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
+    return this.http.put( this.baseUrl + 'update/' + idClient, client , {
+      headers: this.headers
+    });
   }
 
   findById(id): Observable<any> {

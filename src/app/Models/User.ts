@@ -1,12 +1,12 @@
 import {Local} from './Local';
 
 export class User {
-  id: number;
+  idUser: number;
   username: string;
   email: string;
   password: string;
   image: string ;
-  phoneNumber: number;
+  phoneNumber: string;
   firstName: string;
   lastName: string;
   birthdate: string;

@@ -32,5 +32,6 @@ export class NavbarComponent implements OnInit {
     console.log('ddddd');
     this.auth.loggedOut();
     this.ngOnInit();
+    this.router.navigateByUrl('');
   }
 }

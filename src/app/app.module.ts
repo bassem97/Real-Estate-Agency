@@ -8,10 +8,10 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {
   _MatMenuDirectivesModule,
   MatButtonModule, MatButtonToggleModule,
-  MatCardModule, MatCheckboxModule, MatDialogModule,
+  MatCardModule, MatCheckboxModule, MatDatepickerModule, MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatMenuModule, MatOptionModule, MatSelectModule,
+  MatInputModule, MatMenuModule, MatNativeDateModule, MatOptionModule, MatSelectModule,
   MatSliderModule, MatSnackBarModule, MatStepperModule, MatTableModule,
   MatTabsModule, MatTooltipModule
 } from '@angular/material';
@@ -37,6 +37,8 @@ import {UiCarouselModule} from 'ngx-ui-carousel';
 import {AuthenticationGuard} from './guard/authentication.guard';
 import {AgentsComponent} from './Components/agents/agents.component';
 import {CarouselDirective} from './Components/home/carousel.directive';
+import {NgxIntlTelInputModule} from 'ngx-intl-tel-input';
+import {NgxMatIntlTelInputModule} from 'ngx-mat-intl-tel-input';
 
 
 @NgModule({
@@ -90,7 +92,11 @@ import {CarouselDirective} from './Components/home/carousel.directive';
     MatCarouselModule,
     UiCarouselModule,
     MatTooltipModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxIntlTelInputModule,
+    NgxMatIntlTelInputModule
   ],
   entryComponents: [DialogComponent],
   providers: [HttpClientModule, NavbarComponent, HomeComponent, AuthenticationGuard],

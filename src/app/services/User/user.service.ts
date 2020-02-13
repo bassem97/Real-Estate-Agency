@@ -26,7 +26,7 @@ export class UserService {
   }
   list(): Observable<any> {
     this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
-    return this.http.get(this.baseurl + 'users', {
+    return this.http.get(this.baseurl + 'list', {
       headers: this.headers
     });
   }
@@ -40,7 +40,7 @@ export class UserService {
 
   modify(user) {
     this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
-    return this.http.put(this.baseurl + 'users', user , {
+    return this.http.put(this.baseurl + 'update', user , {
       headers: this.headers
     });
   }
