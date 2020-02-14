@@ -5,7 +5,7 @@
             <table>
               <tr>
                 <td>
-            <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+            <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)"  class="form">
             <table >
               <tr>
                 <td *ngIf="this.user.dtype === 'Client' ">
@@ -78,9 +78,8 @@
                                              [enablePlaceholder]="true"
                                              [enableSearch]="true"
                                              placeholder="Phone Number"
-                                             #phone
                                              [(ngModel)]='user.phoneNumber'
-                                             [ngModelOptions]="{standalone: true}"
+                                             formControlName="phonenumber"
                                              ></ngx-mat-intl-tel-input>
                     <mat-error *ngIf="!phonenumber.valid && phonenumber.touched">
                       {{ getErrorPhonenumber() }}
@@ -123,16 +122,9 @@
                 </td>
               </tr>
               <tr>
-                <td>
+                <td colspan="2" style="{width : 40%}">
                   <div class="form-element">
-                    <button mat-raised-button color="accent"  class="button" >cancel</button>
-                    <!--                  [disabled]="!formGroup.valid"-->
-                  </div>
-                </td>
-                <td>
-                  <div class="form-element">
-                    <button mat-raised-button color="primary" type="submit" class="button" >Save changes</button>
-                    <!--                  [disabled]="!formGroup.valid"-->
+                    <button mat-raised-button color="primary"  [disabled]="!formGroup.touched" type="submit" class="button" >Save changes</button>
                   </div>
                 </td>
               </tr>
@@ -192,7 +184,7 @@
                 <tr>
                   <td colspan="2">
                     <div class="form-element">
-                      <button mat-raised-button color="primary" type="submit" class="button"  >Change password</button>
+                      <button mat-raised-button color="primary" type="submit" class="button" [disabled]="passwordFormGroup.invalid"  >Change password</button>
                       <!--                  [disabled]="!formGroup.valid"-->
                     </div>
                   </td>
@@ -243,7 +235,7 @@
           </mat-tab>
           <mat-tab label="My Wishlist property">
                 <h1 align="center">My Wish List</h1>
-                <div id="myCarousel" class="carousel" data-ride="carousel" >
+                <div id="myCarousel" class="carousel" data-ride="carousel" style="min-height: 200px ">
                   <div class="carousel-inner row w-100 mx-auto" >
                     <div class="carousel-item col-md-4 active" *ngFor="let local of this.user.wishList">
                       <div class="item">

@@ -7,11 +7,12 @@ import {Form, FormBuilder, FormControl, FormGroup, Validators} from '@angular/fo
 import {Observable} from 'rxjs';
 import {ChangePassword} from '../../Models/ChangePassword';
 import { SearchCountryField, TooltipLabel, CountryISO } from 'ngx-intl-tel-input';
-import {MatInputModule} from '@angular/material';
+import {MatDialog, MatDialogRef, MatInputModule} from '@angular/material';
 import {NgxMatIntlTelInputModule} from 'ngx-mat-intl-tel-input';
 import {PhoneNumber} from 'libphonenumber-js';
 import {AgencyService} from '../../services/Agency/agency.service';
 import {ClientService} from '../../services/Client/client.service';
+import {DialogComponent} from '../sign/dialog.component';
 
 
 export function MustMatch(controlName: string, matchingControlName: string) {
@@ -46,11 +47,13 @@ export class UserProfileComponent implements OnInit {
   selected: number;
   constructor(private userService: UserService,
               private route: ActivatedRoute,
+              public dialog: MatDialog,
               private formBuilder: FormBuilder,
               private agencyService: AgencyService,
               private clientService: ClientService) {
     this.createForm();
   }
+  dialogComponent: MatDialogRef<DialogComponent>;
   user: User =  {
     agencyName: '',
     birthdate: '',
@@ -107,25 +110,26 @@ export class UserProfileComponent implements OnInit {
     const emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.formGroup = this.formBuilder.group({
       email: [this.user.email, [Validators.required, Validators.pattern(emailregex)], this.checkInUseEmail.bind(this)],
-      username: [null, [Validators.required, Validators.minLength(4)], this.checkInUseUsername.bind(this)],
-      phonenumber: [null, [Validators.required], this.checkInUsePhoneNumber.bind(this)],
+      username: [this.user.email, [Validators.required, Validators.minLength(4)], this.checkInUseUsername.bind(this)],
+      phonenumber: [this.user.phoneNumber, [Validators.required], this.checkInUsePhoneNumber.bind(this)]
     });
     this.userService.findUserWithToken().subscribe(user => {
       // @ts-ignore
       if (user.dtype === 'Client') {
-        this.formGroup.addControl('firstname', new FormControl(null, [Validators.required,  Validators.minLength(3)]));
-        this.formGroup.addControl('lastname', new FormControl(null, [Validators.required,  Validators.minLength(3)]));
-        this.formGroup.addControl('birthdate', new FormControl(null, [Validators.required]));
+        this.formGroup.addControl('firstname', new FormControl(this.user.firstName, [Validators.required,  Validators.minLength(3)]));
+        this.formGroup.addControl('lastname', new FormControl(this.user.lastName, [Validators.required,  Validators.minLength(3)]));
+        this.formGroup.addControl('birthdate', new FormControl(this.user.birthdate, [Validators.required]));
       } else {
-        this.formGroup.addControl('agencyname', new FormControl(null, [Validators.required,  Validators.minLength(3)]));
+        this.formGroup.addControl('agencyname', new FormControl(this.user.agencyName, [Validators.required,  Validators.minLength(3)]));
         this.formGroup.addControl('taxregistration',
-          new FormControl(null, [Validators.required,  Validators.minLength(4)], this.checkInUseTaxRegistration.bind(this)));
+          new FormControl(this.user.taxRegistration, [Validators.required,  Validators.minLength(4)],
+            this.checkInUseTaxRegistration.bind(this)));
       }
 
     });
     this.passwordFormGroup = this.formBuilder.group({
-      oldpassword: [null, [Validators.required]],
-      newpassword: [null, [Validators.required, this.checkPassword]],
+      oldpassword: [this.changePassword.oldPassword, [Validators.required]],
+      newpassword: [this.changePassword.newPassword, [Validators.required, this.checkPassword]],
       repassword: [null, Validators.required],
     }, {
       validator: MustMatch('newpassword', 'repassword')
@@ -142,7 +146,42 @@ export class UserProfileComponent implements OnInit {
     return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { requirements: true } : null;
   }
 
-  // @ts-ignore
+  CancelChanges(value: any) {
+
+    console.table(this.formGroup.value);
+  }
+
+  onSubmit(post) {
+    if (this.user.dtype === 'Client') {
+      this.clientService.modify(this.user.idUser, this.user).subscribe( user => console.table(user)) ;
+    } else {
+      this.agencyService.modify(this.user.idUser, this.user).subscribe(user => console.table(user));
+    }
+    this.dialogComponent = this.dialog.open(DialogComponent, {
+      width: '400px',
+      data : 'informations updated successfully ! '
+    });
+    this.formGroup.markAsUntouched();
+  }
+  ChangePassword(value: any) {
+    this.userService.changePassword(this.changePassword, this.user).subscribe(res => {
+      console.table(res);
+      if ( res === false) {
+        this.oldpassword.setErrors({incorrect: true});
+      } else {
+        this.dialogComponent = this.dialog.open(DialogComponent, {
+          width: '350px',
+          data : 'Password changed successfully ! '
+        });
+        this.passwordFormGroup.reset();
+        this.oldpassword.setErrors(null);
+        this.newpassword.setErrors(null);
+        this.repassword.setErrors(null);
+      }
+    });
+  }
+
+
 // Check In User the fields : Tax Registration , Username , Email and Phone number
   checkInUseTaxRegistration(control) {
     const taxRegistrations = [];
@@ -213,11 +252,10 @@ export class UserProfileComponent implements OnInit {
   checkInUsePhoneNumber(control) {
     // mimic http database access
     const phoneNumbers = [];
+    console.log('dakhall lil methode');
     this.userService.findUserWithToken().subscribe(userr => {
       this.userService.list().subscribe(users => {
         for (const user of users) {
-          // @ts-ignore
-          console.log(user.phoneNumber, '', userr.phoneNumber);
           // @ts-ignore
           if (user.phoneNumber !== userr.phoneNumber) {
             phoneNumbers.push(user.phoneNumber);
@@ -236,17 +274,7 @@ export class UserProfileComponent implements OnInit {
   }
 
 
-
-  onSubmit(post) {
-    if (this.user.dtype === 'Client') {
-      this.clientService.modify(this.user.idUser, this.user).subscribe( user => console.log(user)) ;
-    } else {
-      this.agencyService.modify(this.user.idUser, this.user).subscribe(user => console.log(user));
-    }
-  }
-
-  // Get form controls Error
-
+  // Get form controls Errors
   getErrorFirstname() {
     return this.firstname.hasError('required') ?
       'Field is required' :
@@ -278,12 +306,11 @@ export class UserProfileComponent implements OnInit {
         this.email.hasError('alreadyInUse') ? 'This email address is already in use' : '';
   }
   getErrorPhonenumber() {
-    return this.phonenumber.hasError('required') ? 'Field is required' :
-    this.phonenumber.hasError('alreadyInUse') ? 'This phone number is already in use' :
+    return this.phonenumber.hasError('alreadyInUse') ? 'This phone number is already in use' :
       'Invalid phone number ' ;
   }
   getErrorOldPassword() {
-    return this.oldpassword.hasError('required') ? 'Field is required ' : '';
+    return this.oldpassword.hasError('required') ? 'Field is required ' : 'Incorrect password';
   }
   getErrorNewPassword() {
     return this.newpassword.hasError('required') ? 'Field is required (at least six characters, one uppercase letter and one number)' :
@@ -293,9 +320,8 @@ export class UserProfileComponent implements OnInit {
     return this.repassword.hasError('required') ? 'Field is required ' : 'Passwords Must match ' ;
   }
 
+
 // Get the form controls
-
-
   get firstname() {
     return this.formGroup.get('firstname') as FormControl;
   }
@@ -334,14 +360,4 @@ export class UserProfileComponent implements OnInit {
   }
 
 
-  ChangePassword(value: any) {
-
-      this.userService.changePassword(this.changePassword, this.user).subscribe(res => {
-        console.log(res);
-        if( res === true) {
-          this.oldpassword.markAsDirty(); 
-        }
-      });
-
-  }
 }
