@@ -16,4 +16,10 @@ export class User {
   locals: Local[];
   wishList: Local[];
 
+
+  constructor(username: string, email: string, password: string) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+  }
 }

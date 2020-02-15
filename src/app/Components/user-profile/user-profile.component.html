@@ -68,6 +68,7 @@
                     <mat-error *ngIf="!username.valid && username.touched">
                       {{ getErrorUsername() }}
                     </mat-error>
+                    <mat-icon matSuffix>perm_identity</mat-icon>
                   </mat-form-field>
                 </td>
                 <td>
@@ -98,6 +99,7 @@
                     <mat-error *ngIf="!email.valid && email.touched">
                       {{ getErrorEmail() }}
                     </mat-error>
+                    <mat-icon matSuffix>email</mat-icon>
                   </mat-form-field>
                 </td>
                 <td *ngIf="this.user.dtype === 'Client' ">
@@ -165,6 +167,7 @@
                       <mat-error *ngIf="!newpassword.valid && newpassword.touched">
                         {{ getErrorNewPassword() }}
                       </mat-error>
+                      <mat-icon matSuffix>lock</mat-icon>
                     </mat-form-field>
                   </td>
                   <td>
@@ -178,6 +181,7 @@
                       <mat-error *ngIf="!repassword.valid && repassword.touched">
                         {{ getErrorRepassword() }}
                       </mat-error>
+                      <mat-icon matSuffix>lock</mat-icon>
                     </mat-form-field>
                   </td>
                 </tr>

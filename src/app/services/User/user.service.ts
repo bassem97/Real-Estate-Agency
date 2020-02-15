@@ -25,10 +25,7 @@ export class UserService {
     });
   }
   list(): Observable<any> {
-    this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
-    return this.http.get(this.baseurl + 'list', {
-      headers: this.headers
-    });
+    return this.http.get(this.baseurl + 'list', );
   }
 
   remove(id) {

@@ -32,7 +32,8 @@
                 <li><span>Transaction type: </span> For {{this.local.transactionType}}</li>
               </ul>
               <ul class="ml-md-5">
-                <li><span>Owner phone number: </span> +216 {{this.local.user.phoneNumber}}</li>
+                <li *ngIf="local.user.phoneNumber !== null"><span>Owner phone number: </span>  {{this.local.user.phoneNumber}}</li>
+                <li *ngIf="local.user.phoneNumber === null"><span>Owner phone number: </span>  NOT PROVIDED YET </li>
                 <li><span>Owner email address : </span> {{this.local.user.email}}</li>
               </ul>
             </div>

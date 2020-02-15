@@ -1,20 +1,18 @@
 <div class="login-page">
   <mat-card class="mat-elevation-z12">
     <mat-card-title style="text-align:center;">SignIn/SignUp</mat-card-title>
-    <mat-tab-group [selectedIndex]="selected" mat-stretch-tabs class="example-stretched-tabs">
+    <mat-tab-group [selectedIndex]="selected" mat-stretch-tabs class="example-stretched-tabs" >
       <mat-tab label="Sign In">
         <mat-card-content>
-          <form [formGroup]="signInForm" (ngSubmit)="signInForm.valid" (submit)="signIn()" novalidate >
+          <form [formGroup]="signInForm"  >
             <mat-form-field>
               <input
                 matInput
-                placeholder="Email/Username"
+                placeholder="Username"
                 required
-                id="emailUsername"
-                [(ngModel)]="this.login.username"
-                formControlName="emailUsername">
-              <mat-error *ngIf="signInForm.get('emailUsername').hasError('minlength')">email/Username must be of length 4</mat-error>
-              <mat-error *ngIf="signInForm.get('emailUsername').hasError('required')">Email/UserName is required</mat-error>
+                [(ngModel)]="login.username"
+                formControlName="username">
+              <mat-error *ngIf="signInForm.get('username').hasError('required')">UserName is required</mat-error>
               <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
             <mat-form-field>
@@ -23,18 +21,13 @@
                 [type]="toggle3.type"
                 matInput
                 placeholder="Password"
-                type="password"
                 required
                 id="password"
-                [(ngModel)]="this.login.password"
+                [(ngModel)]="login.password"
                 formControlName="password">
               <mat-error
                 *ngIf="signInForm.get('password').hasError('required')">
                 Password is required
-              </mat-error>
-              <mat-error
-                *ngIf="signInForm.get('password').hasError('minlength')">
-                Password must be of length 6
               </mat-error>
               <mat-icon matSuffix>lock</mat-icon>
             </mat-form-field>
@@ -44,7 +37,7 @@
               color="primary"
               class="login-button"
               type="submit"
-              value="submit">
+              (tsSubmitIfValid)="signIn()">
               Sign In
             </button>
 
@@ -58,66 +51,30 @@
       </mat-tab>
       <mat-tab label="Sign Up">
         <mat-card-content>
-          <form [formGroup]="signUpForm"  action="">
+          <form [formGroup]="signUpForm"   >
             <mat-form-field>
               <mat-label>You are </mat-label>
               <mat-select
                 [(ngModel)]="selectedItem"
                 name="type"
+                (selectionChange)="editControls($event)"
                 [ngModelOptions]="{standalone: true}"
-                #type
               >
                 <mat-option value="Agency"> Agency </mat-option>
                 <mat-option value="Person"> Person </mat-option>
               </mat-select>
             </mat-form-field>
-            <mat-form-field *ngIf="selectedItem=='Agency'">
-              <input
-                matInput
-                placeholder="Agency name"
-                required
-                name="agencyName"
-                formControlName="agencyName"
-                [(ngModel)]="agency.agencyName"
-                #agencyName>
-              <mat-icon matSuffix>business</mat-icon>
-              <mat-error
-                *ngIf="signUpForm.get('agencyName').hasError('required')">
-                Agency name is required
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field *ngIf="selectedItem=='Agency'">
-              <input
-                matInput
-                placeholder="Tax registration"
-                required
-                name="taxRegistration"
-                formControlName="taxRegistration"
-                [(ngModel)]="agency.taxRegistration"
-                (blur)="Existence('taxRegistration'); ; this.isTaxRegistrationFocused = true"
-                #taxRegistration>
-              <mat-icon matSuffix>list_alt</mat-icon>
-              <mat-error
-                *ngIf="signUpForm.get('taxRegistration').hasError('required')">
-                Tax registration is required
-              </mat-error>
-            </mat-form-field>
-            <div class="mat-error"
-                 *ngIf="isFieldExist == true && this.isTaxRegistrationFocused == true">Tax Registartion already exist
-            </div>
             <mat-form-field *ngIf="selectedItem=='Person'">
               <input
                 matInput
                 placeholder="Firstname"
                 required
-                name="firstName"
-                formControlName="firstName"
-                [(ngModel)]="this.client.firstName"
-                #firstName>
+                formControlName="firstname"
+                [(ngModel)]="user.firstName"
+              >
               <mat-icon matSuffix>perm_identity</mat-icon>
-              <mat-error
-                *ngIf="signUpForm.get('firstName').hasError('required')">
-                Firstname is required
+              <mat-error *ngIf="!firstname.valid && firstname.touched">
+                {{ getErrorFirstname() }}
               </mat-error>
             </mat-form-field>
             <mat-form-field *ngIf="selectedItem=='Person'">
@@ -126,13 +83,36 @@
                 placeholder="lastName"
                 required
                 name="lastName"
-                [(ngModel)]="this.client.lastName"
-                formControlName="lastName"
-                #lastname>
+                [(ngModel)]="user.lastName"
+                formControlName="lastname">
               <mat-icon matSuffix>perm_identity</mat-icon>
-              <mat-error
-                *ngIf="signUpForm.get('lastName').hasError('required')">
-                Lastname is required
+              <mat-error *ngIf="!lastname.valid && lastname.touched">
+                {{ getErrorLastname() }}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field *ngIf="selectedItem=='Agency'">
+              <input
+                matInput
+                placeholder="Agency name"
+                required
+                formControlName="agencyname"
+                [(ngModel)]="user.agencyName"
+                >
+              <mat-icon matSuffix>business</mat-icon>
+              <mat-error *ngIf="!agencyname.valid && agencyname.touched">
+                {{ getErrorAgencyName() }}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field *ngIf="selectedItem=='Agency'">
+              <input
+                matInput
+                placeholder="Tax registration"
+                required
+                formControlName="taxregistration"
+                [(ngModel)]="user.taxRegistration">
+              <mat-icon matSuffix>list_alt</mat-icon>
+              <mat-error *ngIf="!taxregistration.valid && taxregistration.touched">
+                {{ getErrorTaxRegistration() }}
               </mat-error>
             </mat-form-field>
             <mat-form-field>
@@ -141,27 +121,17 @@
                 placeholder="User Name"
                 required
                 name="userName"
-                formControlName="userName"
-                (blur)="Existence('username'); this.isUsernameFocused= true"
-                [ngModel]="selectedItem === 'Person' ? client.username : agency.username"
-                (ngModelChange)="selectedItem === 'Person' ? (client.username = $event) : (agency.username = $event)"
-              />
+                formControlName="username"
+                [(ngModel)]="user.username">
+<!--                (blur)="Existence('username'); this.isUsernameFocused= true"-->
+<!--                [ngModel]="selectedItem === 'Person' ? client.username : agency.username"-->
+<!--                (ngModelChange)="selectedItem === 'Person' ? (client.username = $event) : (agency.username = $event)"-->
               <!--                [(ngModel)]="selectedItem === 'Person' ? client.email : agency.email"-->
-
-
               <mat-icon matSuffix>perm_identity</mat-icon>
-              <mat-error
-                *ngIf="signUpForm.get('userName').hasError('required')">
-                Username is required
-              </mat-error>
-              <mat-error
-                *ngIf="signUpForm.get('userName').hasError('minlength')">
-                UserName must be of length 4
+              <mat-error *ngIf="!username.valid && username.touched">
+                {{ getErrorUsername() }}
               </mat-error>
             </mat-form-field>
-            <div class="mat-error"
-                 *ngIf="isFieldExist == true && this.isUsernameFocused == true">Username already exist
-            </div>
             <mat-form-field>
               <input
                 matInput
@@ -169,18 +139,15 @@
                 required
                 name="email"
                 formControlName="email"
-                (blur)="Existence('email'); isEmailFocused = true"
-
-                [ngModel]="selectedItem === 'Person' ? client.email : agency.email"
-                (ngModelChange)="selectedItem === 'Person' ? (client.email = $event) : (agency.email = $event)"
-                #email>
-              <mat-error *ngIf="signUpForm.get('email').hasError('email')">Wrong email</mat-error>
-              <mat-error *ngIf="signUpForm.get('email').hasError('required')">Email is required</mat-error>
+              [(ngModel)]="user.email">
+<!--                (blur)="Existence('email'); isEmailFocused = true"-->
+<!--                [ngModel]="selectedItem === 'Person' ? client.email : agency.email"-->
+<!--                (ngModelChange)="selectedItem === 'Person' ? (client.email = $event) : (agency.email = $event)"-->
+              <mat-error *ngIf="!email.valid && email.touched">
+                {{ getErrorEmail() }}
+              </mat-error>
               <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
-            <div class="mat-error"
-                 *ngIf="isFieldExist == true && this.isEmailFocused == true">Email already exist
-            </div>
             <mat-form-field>
               <mat-pass-toggle-visibility #toggle  matSuffix></mat-pass-toggle-visibility>
               <input
@@ -189,13 +156,10 @@
                 placeholder="Password"
                 type="password"
                 required
-                minlength="6"
-                name="password"
                 formControlName="password"
-                [ngModel]="selectedItem === 'Person' ? client.password : agency.password"
-                (ngModelChange)="selectedItem === 'Person' ? (client.password = $event) : (agency.password = $event)"
-                #password
-               >
+                [(ngModel)]="user.password">
+<!--                [ngModel]="selectedItem === 'Person' ? client.password : agency.password"-->
+<!--                (ngModelChange)="selectedItem === 'Person' ? (client.password = $event) : (agency.password = $event)"-->
 <!--              <mat-error-->
 <!--                *ngIf="password.errors && password.errors.required">-->
 <!--                Password is required-->
@@ -204,36 +168,37 @@
 <!--                *ngIf="password.errors && password.errors.minlength">-->
 <!--                Password must be of length 6-->
 <!--              </mat-error>-->
-              <mat-error *ngIf="signUpForm.get('password').hasError('required')">Password is required</mat-error>
-              <mat-error *ngIf="signUpForm.get('password').hasError('minlength')">Password must be of length 6</mat-error>
+              <mat-hint *ngIf="repassword.untouched">Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
+              <mat-error *ngIf="!password.valid && password.touched">
+                {{ getErrorPassword() }}
+              </mat-error>
               <mat-icon matSuffix>lock</mat-icon>
 
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field >
               <mat-pass-toggle-visibility #toggle2  matSuffix></mat-pass-toggle-visibility>
               <input
                 [type]="toggle2.type"
                 matInput
-                placeholder="rePassword"
+                placeholder="Confirm password"
                 type="password"
                 required
                 minlength="6"
                 name="repassword"
-                formControlName="rePassword"
+                formControlName="repassword"
                >
               <mat-icon matSuffix>lock</mat-icon>
-              <mat-error *ngIf="signUpForm.get('rePassword').hasError('required')">Re-Enter Password required</mat-error>
-              <mat-error *ngIf="! signUpForm.get('rePassword').hasError('required')">Password must match</mat-error>
+              <mat-error *ngIf="!repassword.valid && repassword.touched">
+                {{ getErrorRepassword() }}
+              </mat-error>
             </mat-form-field>
             <button
               mat-raised-button
               color="primary"
               type="submit"
-              (click)="register()"
               class="login-button"
-              [disabled]="signUpForm.invalid">
+              (tsSubmitIfValid)="register()" >
               Sign Up
-
             </button>
           </form>
         </mat-card-content>

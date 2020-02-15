@@ -62,7 +62,7 @@
           <td>
             <mat-form-field>
               <mat-label>Rooms Number</mat-label>
-              <input matInput placeholder="Area" type="number" [(ngModel)]="this.local.roomsNumber" formControlName="RoomsNumber"  >
+              <input matInput placeholder="Area" type="number" [(ngModel)]="this.local.roomsNumber" [ngModelOptions]="{standalone: true}"  >
             </mat-form-field>
           </td>
         </tr>

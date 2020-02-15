@@ -38,7 +38,7 @@ export class AddLocalComponent implements OnInit {
     });
     this.secondFormGroup = this.formBuilder.group({
       Area: [this.local.area, [ Validators.required, Validators.min(1)]],
-      RoomsNumber: [this.local.roomsNumber, [ Validators.required, Validators.min(1)]],
+      // RoomsNumber: [this.local.roomsNumber, [ Validators.required, Validators.min(1)]],
       Price: [this.local.price, [ Validators.required, Validators.min(1)]],
     });
     this.thirdFormGroup = this.formBuilder.group({
@@ -59,7 +59,7 @@ export class AddLocalComponent implements OnInit {
   }
 
   onSelectFile(event) {
-    const file =  event.target.files;
+    console.log(event);
   }
 }
 

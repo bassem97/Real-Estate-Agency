@@ -41,7 +41,6 @@ export function MustMatch(controlName: string, matchingControlName: string) {
 export class UserProfileComponent implements OnInit {
   formGroup: FormGroup;
   passwordFormGroup: FormGroup;
-  emails: string[] = [];
   post: any = '';
   userFile = File;
   selected: number;
@@ -108,6 +107,7 @@ export class UserProfileComponent implements OnInit {
   createForm() {
     // tslint:disable-next-line:max-line-length
     const emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const name: RegExp = /^[a-zA-Z]*$/;
     this.formGroup = this.formBuilder.group({
       email: [this.user.email, [Validators.required, Validators.pattern(emailregex)], this.checkInUseEmail.bind(this)],
       username: [this.user.email, [Validators.required, Validators.minLength(4)], this.checkInUseUsername.bind(this)],
@@ -116,11 +116,14 @@ export class UserProfileComponent implements OnInit {
     this.userService.findUserWithToken().subscribe(user => {
       // @ts-ignore
       if (user.dtype === 'Client') {
-        this.formGroup.addControl('firstname', new FormControl(this.user.firstName, [Validators.required,  Validators.minLength(3)]));
-        this.formGroup.addControl('lastname', new FormControl(this.user.lastName, [Validators.required,  Validators.minLength(3)]));
+        // tslint:disable-next-line:max-line-length
+        this.formGroup.addControl('firstname', new FormControl(this.user.firstName, [Validators.required,  Validators.pattern(name),  Validators.minLength(3)]));
+        // tslint:disable-next-line:max-line-length
+        this.formGroup.addControl('lastname', new FormControl(this.user.lastName, [Validators.required,  Validators.pattern(name),  Validators.minLength(3)]));
         this.formGroup.addControl('birthdate', new FormControl(this.user.birthdate, [Validators.required]));
       } else {
-        this.formGroup.addControl('agencyname', new FormControl(this.user.agencyName, [Validators.required,  Validators.minLength(3)]));
+        // tslint:disable-next-line:max-line-length
+        this.formGroup.addControl('agencyname', new FormControl(this.user.agencyName, [Validators.required,  Validators.pattern(name),  Validators.minLength(3)]));
         this.formGroup.addControl('taxregistration',
           new FormControl(this.user.taxRegistration, [Validators.required,  Validators.minLength(4)],
             this.checkInUseTaxRegistration.bind(this)));
@@ -140,16 +143,9 @@ export class UserProfileComponent implements OnInit {
 
 // Check form controls
 
-  checkPassword(control) {
-    const enteredPassword = control.value;
-    const passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
-    return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { requirements: true } : null;
-  }
 
-  CancelChanges(value: any) {
 
-    console.table(this.formGroup.value);
-  }
+
 
   onSubmit(post) {
     if (this.user.dtype === 'Client') {
@@ -180,8 +176,12 @@ export class UserProfileComponent implements OnInit {
       }
     });
   }
-
-
+// check valide password : must be al least 6 caractere, one maj and one miniscule and a number
+  checkPassword(control) {
+    const enteredPassword = control.value;
+    const passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
+    return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { requirements: true } : null;
+  }
 // Check In User the fields : Tax Registration , Username , Email and Phone number
   checkInUseTaxRegistration(control) {
     const taxRegistrations = [];
@@ -278,17 +278,17 @@ export class UserProfileComponent implements OnInit {
   getErrorFirstname() {
     return this.firstname.hasError('required') ?
       'Field is required' :
-      this.firstname.hasError('minlength') ? 'You need to specify at least 3 characters' : '';
+      this.firstname.hasError('minlength') ? 'You need to specify at least 3 characters' : 'First name should be contain only caracters';
   }
   getErrorLastname() {
     return this.lastname.hasError('required') ?
       'Field is required' :
-      this.lastname.hasError('minlength') ? 'You need to specify at least 3 characters' : '';
+      this.lastname.hasError('minlength') ? 'You need to specify at least 3 characters' : 'Last name should be contain only caracters';
   }
   getErrorAgencyName() {
     return this.agencyname.hasError('required') ?
       'Field is required' :
-      this.agencyname.hasError('minlength') ? 'You need to specify at least 3 characters' : '';
+      this.agencyname.hasError('minlength') ? 'You need to specify at least 3 characters' : 'Agency name should be contain only caracters';
   }
   getErrorTaxRegistration() {
     return this.taxregistration.hasError('required') ? 'Field is required' :

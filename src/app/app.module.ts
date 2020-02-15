@@ -20,7 +20,7 @@ import { HomeComponent } from './Components/home/home.component';
 import { SignComponent } from './Components/sign/sign.component';
 import { AboutComponent } from './Components/about/about.component';
 import { ContactComponent } from './Components/contact/contact.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, NgForm, ReactiveFormsModule} from '@angular/forms';
 import {MatPasswordStrengthModule} from '@angular-material-extensions/password-strength';
 import { FooterComponent } from './Components/footer/footer.component';
 import {HttpClientModule} from '@angular/common/http';
@@ -39,6 +39,7 @@ import {AgentsComponent} from './Components/agents/agents.component';
 import {CarouselDirective} from './Components/home/carousel.directive';
 import {NgxIntlTelInputModule} from 'ngx-intl-tel-input';
 import {NgxMatIntlTelInputModule} from 'ngx-mat-intl-tel-input';
+import {SubmitIfValidDirective} from './Components/sign/submit-if-valid.directive';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import {NgxMatIntlTelInputModule} from 'ngx-mat-intl-tel-input';
     AddLocalComponent,
     UserProfileComponent,
     AgentsComponent,
-    CarouselDirective
+    CarouselDirective,
+    SubmitIfValidDirective
 
 
   ],
@@ -96,10 +98,11 @@ import {NgxMatIntlTelInputModule} from 'ngx-mat-intl-tel-input';
     MatDatepickerModule,
     MatNativeDateModule,
     NgxIntlTelInputModule,
-    NgxMatIntlTelInputModule
+    NgxMatIntlTelInputModule,
+
   ],
   entryComponents: [DialogComponent],
-  providers: [HttpClientModule, NavbarComponent, HomeComponent, AuthenticationGuard],
+  providers: [HttpClientModule, NavbarComponent, HomeComponent, AuthenticationGuard, NgForm],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

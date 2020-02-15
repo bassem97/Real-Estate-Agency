@@ -13,7 +13,7 @@ import {UserService} from '../../services/User/user.service';
 export class NavbarComponent implements OnInit {
    selected: number;
    isLoggedIn;
-   user: User = new User();
+   user: User = new User('', '', '');
   username;
   constructor(private router: Router, private auth: AuthenticationService, private userService: UserService) { }
 
