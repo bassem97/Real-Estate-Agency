@@ -7,12 +7,13 @@ import {Form, FormBuilder, FormControl, FormGroup, Validators} from '@angular/fo
 import {Observable} from 'rxjs';
 import {ChangePassword} from '../../Models/ChangePassword';
 import { SearchCountryField, TooltipLabel, CountryISO } from 'ngx-intl-tel-input';
-import {MatDialog, MatDialogRef, MatInputModule} from '@angular/material';
+import {MatDialog, MatDialogRef, MatInputModule, MatSnackBar} from '@angular/material';
 import {NgxMatIntlTelInputModule} from 'ngx-mat-intl-tel-input';
 import {PhoneNumber} from 'libphonenumber-js';
 import {AgencyService} from '../../services/Agency/agency.service';
 import {ClientService} from '../../services/Client/client.service';
 import {DialogComponent} from '../sign/dialog.component';
+import {LocalService} from '../../services/Local/local.service';
 
 
 export function MustMatch(controlName: string, matchingControlName: string) {
@@ -45,8 +46,10 @@ export class UserProfileComponent implements OnInit {
   userFile = File;
   selected: number;
   constructor(private userService: UserService,
+              private localService: LocalService,
               private route: ActivatedRoute,
               public dialog: MatDialog,
+              private snackBar: MatSnackBar,
               private formBuilder: FormBuilder,
               private agencyService: AgencyService,
               private clientService: ClientService) {
@@ -91,7 +94,15 @@ export class UserProfileComponent implements OnInit {
     this.userFile = file ;
   }
 
-
+  removeFromProperty(local: Local) {
+    this.user.locals.forEach( (item, index) => {
+      if (item === local ) {
+        this.user.locals.splice(index, 1);
+        // @ts-ignore
+        this.localService.remove(local.idLocal).subscribe();
+      }
+    });
+  }
   removeFromWishlist(local: Local) {
     this.user.wishList.forEach( (item, index) => {
       if (item === local ) {
@@ -359,5 +370,10 @@ export class UserProfileComponent implements OnInit {
     return this.formGroup.get('description') as FormControl;
   }
 
-
+  openSnackBar() {
+    const message = 'local removed ';
+    const snackBar = this.snackBar.open(message, '', {
+      duration: 3000,
+    });
+  }
 }

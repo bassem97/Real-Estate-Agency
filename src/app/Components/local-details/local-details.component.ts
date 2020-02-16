@@ -11,6 +11,7 @@ import {LocalService} from '../../services/Local/local.service';
 })
 export class LocalDetailsComponent implements OnInit {
   local: Local = new Local();
+  imagePath;
   constructor(private homeComponent: HomeComponent, private route: ActivatedRoute, private localService: LocalService ) { }
 
   slides = [
@@ -23,11 +24,13 @@ export class LocalDetailsComponent implements OnInit {
   ];
   ngOnInit() {
     this.route.paramMap.subscribe(id => {
-       this.localService.findById(Number(id.get('id'))).subscribe(local => {
+       this.localService.findById(Number(id.get('id'))).subscribe((local: Local ) => {
          this.local = local;
+         this.imagePath = '../../../assets/images/' + local.fileName ;
          console.log(this.local);
        });
     });
+
 
   }
 

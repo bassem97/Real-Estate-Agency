@@ -115,16 +115,13 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2">
-          <label class="image-upload-container btn btn-bwm">
-            <span>Select Image</span>
-            <input #imageInput
-                   type="file"
-                   accept="image/*"
-                   (change)="onSelectFile($event)"
-                    style="height: 100%"
-                    multiple>
-          </label>
+        <td >
+          <input style="display: none" #file type="file" accept='image/*' (change)="onSelectFile(file.files)" formControlName="image" />
+          <button mat-raised-button color="accent" type="button" (click)="file.click()" class="inputfile" >Pick file</button>
+          <mat-error *ngIf="message">{{message}}</mat-error>
+        </td>
+        <td>
+          <img [src]="imgURL" height="200" *ngIf="imgURL">
         </td>
       </tr>
     </table>

@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit  {
   user: User = null;
 
    local: Local = {
+     fileName: '', filePath: '',
      user: undefined,
      idLocal: null,
      address : '',
@@ -72,6 +73,8 @@ export class HomeComponent implements OnInit  {
         console.log(this.locals);
       });
     });
+
+
   }
   isWished(local: Local) {
     if (local.hasWished === true) {
@@ -103,7 +106,7 @@ export class HomeComponent implements OnInit  {
     const message = hasWished ? 'local added to wishlist' : 'local removed from wishlist';
     const action = 'open wishlist';
     const snackBar = this.snackBar.open(message, action, {
-      duration: 2000,
+      duration: 3000,
     });
     snackBar.onAction().subscribe(() => this.router.navigate(['userProfile', 2]) );
   }

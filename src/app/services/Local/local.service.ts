@@ -22,7 +22,8 @@ export class LocalService {
   }
 
   remove(id) {
-    return this.http.delete(this.baseUrl + 'remove/' + id );
+    this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
+    return this.http.delete(this.baseUrl + 'delete/' + id ,{ headers : this.headers });
   }
 
   modify(idLocal: number, local: Local): Observable<any> {
@@ -41,13 +42,11 @@ export class LocalService {
     this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
     return this.http.get(this.baseUrl + 'isWishedByUser/' + idUser + '/' + idLocal);
   }
-  fileUpload(taskId, file) {
+  fileUpload(file) {
     this.headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.token});
-
     const formdata = new FormData();
-    formdata.append('task_id', taskId);
     formdata.append('file', file);
-    return this.http.post(this.baseUrl + 'uploadFile', formdata, {
+    return this.http.post(this.baseUrl + 'upload', formdata, {
       headers: this.headers
     });
   }

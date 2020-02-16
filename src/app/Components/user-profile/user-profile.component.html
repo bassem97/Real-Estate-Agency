@@ -201,7 +201,7 @@
           </mat-tab>
           <mat-tab label="My Properties">
                 <h1 align="center">My property List</h1>
-                <div id="myCarousel" class="carousel" data-ride="carousel" >
+                <div id="myCarousel" class="carousel" data-ride="carousel"  style="min-height: 200px ">
                   <div class="carousel-inner row w-100 mx-auto" >
                     <div class="carousel-item col-md-4 active" *ngFor="let local of this.user.locals">
                       <div class="item">
@@ -226,6 +226,12 @@
                             <hr>
                             <p class="bottom-area d-flex">
                               <span><i class="flaticon-selection"></i> {{local.area}}m²</span>
+                              <button matTooltip="remove my propert"
+                                      class="ml-auto  d-flex justify-content-center align-items-center"
+                                      mat-icon-button style=""
+                                      (click)="removeFromProperty(local);openSnackBar()"  >
+                                <i class="material-icons">remove_circle_outline</i>
+                              </button>
                               <span class="ml-auto"><i class="flaticon-bed"></i> {{local.roomsNumber}}</span>
                             </p>
 
@@ -265,7 +271,7 @@
                             <p class="bottom-area d-flex">
                               <span><i class="flaticon-selection"></i> {{local.area}}m²</span>
 
-                              <button matTooltip="removed from wishlist'"
+                              <button matTooltip="remove from wishlist"
                                       class="ml-auto  d-flex justify-content-center align-items-center"
                                       mat-icon-button style=""
                                       (click)="removeFromWishlist(local)"  >

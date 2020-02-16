@@ -8,6 +8,8 @@ export class Local {
   price: number;
   roomsNumber: number;
   transactionType: string;
+  fileName: string;
+  filePath: string;
   type: string;
   user: User;
   userWished: User[];

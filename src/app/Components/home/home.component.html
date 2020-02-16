@@ -184,7 +184,7 @@
             <div class="carousel-item col-md-4 active" *ngFor="let local of this.locals | filter: local.address : local.type : local.transactionType : minPrice : maxPrice : minArea : maxArea : local.roomsNumber ">
               <div class="item">
                                   <div  class="properties">
-                                    <a [routerLink]="['/localDetails', local.idLocal ]" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-1.jpg);">
+                                    <a  [routerLink]="['/localDetails', local.idLocal ]" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../../../assets/images/properties-1.jpg);">
                                       <div class="icon d-flex justify-content-center align-items-center">
                                         <span class="icon-search2"></span>
                                       </div>
